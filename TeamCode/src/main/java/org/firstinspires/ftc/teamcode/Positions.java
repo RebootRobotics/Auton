@@ -19,15 +19,15 @@ public class Positions {
     static final double INTAKE_LIFT2_DOWN = 0.4;
     static final double INTAKE_STOPPER_UP = 0.5;
     static final double INTAKE_STOPPER_DOWN = 0;
-    static final double EXTENSION1_IN = 0.35;
+    static final double EXTENSION1_IN = 0.33;
     static final double EXTENSION1_OUT = 0;
-    static final double EXTENSION2_IN = 0.65;
+    static final double EXTENSION2_IN = 0.67;
     static final double EXTENSION2_OUT = 1;
 
     static final double OUTTAKE_CLAW_CLOSED = 0.6;
     static final double OUTTAKE_CLAW_OPENED = 1;
     static final double OUTTAKE_LIFT1_UP = 0.9;
     static final double OUTTAKE_LIFT2_UP = 0.1;
-    static final double OUTTAKE_LIFT1_DOWN = 0.045;
-    static final double OUTTAKE_LIFT2_DOWN = 0.955;
+    static final double OUTTAKE_LIFT1_DOWN = 0.025;
+    static final double OUTTAKE_LIFT2_DOWN = 0.975;
 }
