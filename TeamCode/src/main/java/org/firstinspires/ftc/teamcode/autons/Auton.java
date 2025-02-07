@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 
 // Non-RR imports
@@ -22,7 +23,7 @@ public class Auton extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Pose2d initialPose = new Pose2d(0, 0, Math.toRadians(90));
+        Pose2d initialPose = new Pose2d(-12, 60, Math.toRadians(90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
 
@@ -49,7 +50,28 @@ public class Auton extends LinearOpMode {
 
         // trajectories
         Action trajectory1 = drive.actionBuilder(initialPose)
-                .lineToY(-30)
+                .lineToY(30)
+                .lineToY(38)
+//                        .strafeTo(new Vector2d(-40,38))
+                .turn(Math.toRadians(-90))
+                .lineToX(-40)
+                .turn(Math.toRadians(90))
+                .lineToY(10)
+//                        .strafeTo(new Vector2d(-40,10))
+                .turn(Math.toRadians(90))
+                .lineToX(-53)
+
+                .turn(Math.toRadians(90))
+                .lineToY(60)
+//
+//
+////                        .splineTo(new Vector2d(10,10),0)
+//
+                .lineToY(10)
+                .turn(Math.toRadians(90))
+                .lineToX(-57)
+                .turn(Math.toRadians(-90))
+                .lineToY(60)
                 .build();
 //        Action trajectory2 = drive.actionBuilder()
 
@@ -62,14 +84,14 @@ public class Auton extends LinearOpMode {
                 new SequentialAction(
                         transfer,
                         new ParallelAction(
-                                trajectory1,
-                                outtakeLift.liftUp(),
-                                vslide.raise(.75)
-                        ),
-                        new SleepAction(.25),
-                        vslide.lower(.25),
-                        new SleepAction(.25),
-                        vslide.raise(.25)
+                                trajectory1
+//                                outtakeLift.liftUp(),
+//                                vslide.raise(.40)
+                        )
+//                        new SleepAction(.25),
+//                        vslide.lower(.25),
+//                        new SleepAction(.25),
+//                        vslide.raise(.25)
                 )
         );
     }
