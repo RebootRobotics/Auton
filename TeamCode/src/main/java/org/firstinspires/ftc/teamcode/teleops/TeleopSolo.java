@@ -35,8 +35,8 @@ public class TeleopSolo extends LinearOpMode {
         if (isStopRequested()) return;
 
         // default positions and init
-        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         intakeLift1.setPosition(Positions.INTAKE_LIFT1_UP);
         intakeLift2.setPosition(Positions.INTAKE_LIFT2_UP);
@@ -55,17 +55,10 @@ public class TeleopSolo extends LinearOpMode {
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower, backLeftPower, frontRightPower, backRightPower;
 
-//            if (FORWARD) {
-            frontLeftPower = -((y + x - rx) / denominator);
-            backLeftPower = -((y - x - rx) / denominator);
-            frontRightPower = -((y - x + rx) / denominator);
-            backRightPower = -((y + x + rx) / denominator);
-//            } else {
-//                frontLeftPower = (y + x + rx) / denominator;
-//                backLeftPower = (y - x + rx) / denominator;
-//                frontRightPower = (y - x - rx) / denominator;
-//                backRightPower = (y + x - rx) / denominator;
-//            }
+            frontLeftPower = (y - x - rx) / denominator;
+            backLeftPower = (y + x - rx) / denominator;
+            frontRightPower = (y - x + rx) / denominator;
+            backRightPower = (y + x + rx) / denominator;
 
             frontLeftMotor.setPower(frontLeftPower * Positions.SPEED_MODIFIER);
             backLeftMotor.setPower(backLeftPower * Positions.SPEED_MODIFIER);
@@ -78,7 +71,6 @@ public class TeleopSolo extends LinearOpMode {
                 intakeLift2.setPosition(Positions.INTAKE_LIFT2_DOWN);
 
             }
-
 
             if (gamepad1.b) { // toggle intake lift
                 intakeLift1.setPosition(Positions.INTAKE_LIFT1_UP);
@@ -126,6 +118,15 @@ public class TeleopSolo extends LinearOpMode {
                 sleep(Positions.VSLIDE_DURATION);
                 vslide1.setPower(0);
                 vslide2.setPower(0);
+                if (gamepad1.a) { // hang
+                    vslide1.setPower(-Positions.VSLIDE_POWER);
+                    vslide2.setPower(Positions.VSLIDE_POWER);
+                    sleep(20000);
+                    vslide1.setPower(0);
+                    vslide2.setPower(0);
+                    vslide1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                    vslide2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                }
             }
             if (gamepad1.dpad_left) { // extend in
                 extension1.setPosition(Positions.EXTENSION1_OUT);
@@ -148,6 +149,18 @@ public class TeleopSolo extends LinearOpMode {
                 activeIntake.setPower(-Positions.RELEASE_POWER);
                 sleep(Positions.RELEASE_DURATION);
                 activeIntake.setPower(0);
+            }
+
+            if (gamepad2.a) {
+                frontLeftMotor.setPower(1);
+                backLeftMotor.setPower(-1);
+                frontRightMotor.setPower(1);
+                backRightMotor.setPower(-1);
+                sleep(500);
+                frontLeftMotor.setPower(0);
+                backLeftMotor.setPower(0);
+                frontRightMotor.setPower(0);
+                backRightMotor.setPower(0);
             }
         }
     }

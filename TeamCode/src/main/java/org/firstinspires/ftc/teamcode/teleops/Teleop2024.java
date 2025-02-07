@@ -35,8 +35,8 @@ public class Teleop2024 extends LinearOpMode {
         if (isStopRequested()) return;
 
         // default positions and init
-        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         intakeLift1.setPosition(Positions.INTAKE_LIFT1_UP);
         intakeLift2.setPosition(Positions.INTAKE_LIFT2_UP);
@@ -48,24 +48,17 @@ public class Teleop2024 extends LinearOpMode {
         outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_DOWN);
 
         while (opModeIsActive() & !isStopRequested()) {
-            double y = -gamepad2.left_stick_y; // Remember, Y stick value is reversed
-            double x = gamepad2.left_stick_x; //* 1.1; // Counteract imperfect strafing
-            double rx = -gamepad2.right_stick_x;
+            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+            double x = gamepad1.left_stick_x; //* 1.1; // Counteract imperfect strafing
+            double rx = -gamepad1.right_stick_x;
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower, backLeftPower, frontRightPower, backRightPower;
 
-//            if (FORWARD) {
-                frontLeftPower = -((y + x - rx) / denominator);
-                backLeftPower = -((y - x - rx) / denominator);
-                frontRightPower = -((y - x + rx) / denominator);
-                backRightPower = -((y + x + rx) / denominator);
-//            } else {
-//                frontLeftPower = (y + x + rx) / denominator;
-//                backLeftPower = (y - x + rx) / denominator;
-//                frontRightPower = (y - x - rx) / denominator;
-//                backRightPower = (y + x - rx) / denominator;
-//            }
+            frontLeftPower = (y - x - rx) / denominator;
+            backLeftPower = (y + x - rx) / denominator;
+            frontRightPower = (y - x + rx) / denominator;
+            backRightPower = (y + x + rx) / denominator;
 
             frontLeftMotor.setPower(frontLeftPower * Positions.SPEED_MODIFIER);
             backLeftMotor.setPower(backLeftPower * Positions.SPEED_MODIFIER);
@@ -148,6 +141,20 @@ public class Teleop2024 extends LinearOpMode {
                 activeIntake.setPower(-Positions.RELEASE_POWER);
                 sleep(Positions.RELEASE_DURATION);
                 activeIntake.setPower(0);
+            }
+            if (gamepad1.a) { // hang
+                vslide1.setPower(-Positions.VSLIDE_POWER);
+                vslide2.setPower(Positions.VSLIDE_POWER);
+                sleep(5000);
+                vslide1.setPower(0);
+                vslide2.setPower(0);
+            }
+            if (gamepad1.b) { // hang
+                vslide1.setPower(-Positions.VSLIDE_POWER);
+                vslide2.setPower(Positions.VSLIDE_POWER);
+                sleep(10000);
+                vslide1.setPower(0);
+                vslide2.setPower(0);
             }
         }
     }
