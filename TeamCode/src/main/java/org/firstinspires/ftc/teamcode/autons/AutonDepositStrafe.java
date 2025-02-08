@@ -2,11 +2,7 @@ package org.firstinspires.ftc.teamcode.autons;
 
 // RR-specific imports
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
-import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 
@@ -18,12 +14,12 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 import org.firstinspires.ftc.teamcode.autons.mechanismclasses.*;
 
-@Autonomous(name = "Strafe Testing")
-public class StrafeTest extends LinearOpMode {
+@Autonomous(name = "AutonDepositStrafe")
+public class AutonDepositStrafe extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Pose2d initialPose = new Pose2d(-12, 60, Math.toRadians(-90));
+        Pose2d initialPose = new Pose2d(-12, 60, Math.toRadians(90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         // all mechanism classes
@@ -36,7 +32,25 @@ public class StrafeTest extends LinearOpMode {
 
         // trajectories
         Action trajectory1 = drive.actionBuilder(initialPose)
-                .strafeTo(new Vector2d(20,60))
+                .lineToY(30)
+                .lineToY(38)
+                .strafeTo(new Vector2d(-40,38))
+
+//                .turn(Math.toRadians(-90))
+//                .lineToX(-40)
+//                .turn(Math.toRadians(90))
+//                .lineToY(10)
+                .strafeTo(new Vector2d(-40,10))
+//                .turn(Math.toRadians(90))
+//                .lineToX(-53)
+                .strafeTo(new Vector2d(-53,10))
+
+                .strafeTo(new Vector2d(-53,60))
+                .strafeTo(new Vector2d(-53,10))
+
+                .strafeTo(new Vector2d(-57,10))
+
+                .strafeTo(new Vector2d(-57,60))
                 .build();
 
         waitForStart();
@@ -45,7 +59,7 @@ public class StrafeTest extends LinearOpMode {
 
         // auton routine
         Actions.runBlocking(
-               trajectory1
+                trajectory1
         );
     }
 }
