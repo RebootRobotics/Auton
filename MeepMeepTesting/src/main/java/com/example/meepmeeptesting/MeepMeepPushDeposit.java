@@ -32,12 +32,13 @@ public class MeepMeepPushDeposit {
 //                .build());
                 .lineToY(30)
                 .lineToY(38)
-                        .strafeTo(new Vector2d(-40,38))
+                .splineToLinearHeading(new Pose2d(-50, 10, Math.toRadians(-90)), Math.toRadians(90))
+//                        .strafeTo(new Vector2d(-40,38))
 //                .turn(Math.toRadians(-90))
 //                .lineToX(-40)
 //                .turn(Math.toRadians(90))
 //                .lineToY(10)
-                        .strafeTo(new Vector2d(-40,10))
+//                        .strafeTo(new Vector2d(-40,10))
 //                .turn(Math.toRadians(90))
 //                .lineToX(-53)
                                 .strafeTo(new Vector2d(-53,10))
@@ -45,9 +46,9 @@ public class MeepMeepPushDeposit {
                                 .strafeTo(new Vector2d(-53,60))
                 .strafeTo(new Vector2d(-53,10))
 
-                                .strafeTo(new Vector2d(-57,10))
+                                .strafeTo(new Vector2d(-60,10))
 
-                                .strafeTo(new Vector2d(-57,60))
+                                .strafeTo(new Vector2d(-60,60))
 
 //                .turn(Math.toRadians(90))
 //                .lineToY(60)

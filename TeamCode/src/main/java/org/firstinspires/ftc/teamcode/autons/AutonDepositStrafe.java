@@ -34,24 +34,28 @@ public class AutonDepositStrafe extends LinearOpMode {
         Action trajectory1 = drive.actionBuilder(initialPose)
                 .lineToY(30)
                 .lineToY(38)
-                .strafeTo(new Vector2d(-40,38))
-
+                .splineToLinearHeading(new Pose2d(-50, 10, Math.toRadians(-90)), Math.toRadians(90))
+//                        //need
+//                        .strafeTo(new Vector2d(-40,38))
+                //need^
 //                .turn(Math.toRadians(-90))
 //                .lineToX(-40)
 //                .turn(Math.toRadians(90))
 //                .lineToY(10)
-                .strafeTo(new Vector2d(-40,10))
+//                        .strafeTo(new Vector2d(-40,10))
 //                .turn(Math.toRadians(90))
 //                .lineToX(-53)
-                .strafeTo(new Vector2d(-53,10))
 
-                .strafeTo(new Vector2d(-53,60))
-                .strafeTo(new Vector2d(-53,10))
-
-                .strafeTo(new Vector2d(-57,10))
-
-                .strafeTo(new Vector2d(-57,60))
-                .build();
+//                //main
+//                .strafeTo(new Vector2d(-53,10))
+//
+//                .strafeTo(new Vector2d(-53,60))
+//                .strafeTo(new Vector2d(-53,10))
+//
+//                .strafeTo(new Vector2d(-60,10))
+//
+//                .strafeTo(new Vector2d(-60,60))
+                        .build();
 
         waitForStart();
 
