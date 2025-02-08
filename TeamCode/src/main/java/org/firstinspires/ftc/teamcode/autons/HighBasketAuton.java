@@ -63,7 +63,8 @@ public class HighBasketAuton extends LinearOpMode {
                 .lineToY(35)
                 .build();
         Action trajectory2 = drive.actionBuilder(new Pose2d(0, 25, Math.toRadians(-90)))
-                .lineToY(20)
+                .strafeTo(new Vector2d(0, 40))
+                .strafeTo(new Vector2d(8, 40))
                 .build();
 
         Actions.runBlocking(
@@ -90,16 +91,16 @@ public class HighBasketAuton extends LinearOpMode {
                         new SleepAction(.25),
                         vslide.lower(.10),
                         new SleepAction(.25),
-                        vslide.raise(.10)
-//                        new SleepAction(.25),
-//                        outtakeClaw.openClaw(),
-//                        new SleepAction(.25),
-//                        new ParallelAction(
-//                                trajectory2,
-//                                outtakeLift.liftDown(),
-//                                vslide.lower(.40)
-//                        )
-//                )
+                        vslide.raise(.10),
+                        new SleepAction(.25),
+                        outtakeClaw.openClaw(),
+                        new SleepAction(.25),
+                        new ParallelAction(
+                                trajectory2,
+                                outtakeLift.liftDown(),
+                                vslide.lower(.40)
+                        )
+                )
         );
     }
 }
