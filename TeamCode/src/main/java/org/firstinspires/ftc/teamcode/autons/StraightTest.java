@@ -2,7 +2,11 @@ package org.firstinspires.ftc.teamcode.autons;
 
 // RR-specific imports
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 
@@ -14,12 +18,12 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 import org.firstinspires.ftc.teamcode.autons.mechanismclasses.*;
 
-@Autonomous(name = "AutonDepositStrafe")
-public class AutonDepositStrafe extends LinearOpMode {
+@Autonomous(name = "Straight Test")
+public class StraightTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Pose2d initialPose = new Pose2d(-12, 60, Math.toRadians(90));
+        Pose2d initialPose = new Pose2d(0, 0, Math.toRadians(90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         // all mechanism classes
@@ -33,29 +37,7 @@ public class AutonDepositStrafe extends LinearOpMode {
         // trajectories
         Action trajectory1 = drive.actionBuilder(initialPose)
                 .lineToY(30)
-                .lineToY(38)
-//                .splineToLinearHeading(new Pose2d(-50, 30, Math.toRadians(-90)), Math.toRadians(90))
-//                        //need`````
-                        .strafeTo(new Vector2d(-17,38))
-                //need^
-//                .turn(Math.toRadians(-90))
-//                .lineToX(-40)
-//                .turn(Math.toRadians(90))
-//                .lineToY(10)
-                        .strafeTo(new Vector2d(-17,10))
-//                .turn(Math.toRadians(90))
-//                .lineToX(-53)
-
-//                //main
-                .strafeTo(new Vector2d(-22,10))
-//
-                .strafeTo(new Vector2d(-22,60))
-                .strafeTo(new Vector2d(-22,10))
-//
-                .strafeTo(new Vector2d(-26,10))
-//
-                .strafeTo(new Vector2d(-26,60))
-                        .build();
+                .build();
 
         waitForStart();
 

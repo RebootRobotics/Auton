@@ -18,12 +18,12 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 import org.firstinspires.ftc.teamcode.autons.mechanismclasses.*;
 
-@Autonomous(name = "High Basket Auton Left")
+@Autonomous(name = "High Basket Auto")
 public class HighBasketAuton extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Pose2d initialPose = new Pose2d(0, 0, Math.toRadians(90));
+        Pose2d initialPose = new Pose2d(0, 60, Math.toRadians(90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         // all mechanism classes
@@ -35,6 +35,17 @@ public class HighBasketAuton extends LinearOpMode {
         VSlide vslide = new VSlide(hardwareMap);
 
         // custom actions
+        Action preload = new SequentialAction(
+                new ParallelAction(
+                        extension.extendIn(),
+                        outtakeLift.liftDown()
+                ),
+                new SleepAction(.25),
+                outtakeClaw.closeClaw(),
+                new SleepAction(.25),
+                outtakeLift.liftUp()
+        );
+
         Action transfer = new SequentialAction(
                 new ParallelAction(
                         extension.extendIn(),
@@ -49,12 +60,19 @@ public class HighBasketAuton extends LinearOpMode {
 
         // trajectories
         Action trajectory1 = drive.actionBuilder(initialPose)
-                .strafeTo(new Vector2d(-10,0))
-                .lineToY(5)
+                .lineToY(35)
                 .build();
-        Action intakeTrajectory = drive.actionBuilder(initialPose)
-                .lineToY(3)
+        Action trajectory2 = drive.actionBuilder(new Pose2d(0, 25, Math.toRadians(-90)))
+                .lineToY(20)
                 .build();
+
+        Actions.runBlocking(
+                new SequentialAction(
+                        outtakeClaw.closeClaw(),
+//                        outtakeLift.liftInit()
+                        intakeStopper.lowerStopper()
+                )
+        );
 
         waitForStart();
 
@@ -63,10 +81,25 @@ public class HighBasketAuton extends LinearOpMode {
         // auton routine
         Actions.runBlocking(
                 new SequentialAction(
-                        trajectory1,
-                        new SleepAction(1),
-                        intakeTrajectory
-                )
+                        preload,
+                        new ParallelAction(
+                                trajectory1,
+                                outtakeLift.liftUp(),
+                                vslide.raise(.40)
+                        ),
+                        new SleepAction(.25),
+                        vslide.lower(.10),
+                        new SleepAction(.25),
+                        vslide.raise(.10)
+//                        new SleepAction(.25),
+//                        outtakeClaw.openClaw(),
+//                        new SleepAction(.25),
+//                        new ParallelAction(
+//                                trajectory2,
+//                                outtakeLift.liftDown(),
+//                                vslide.lower(.40)
+//                        )
+//                )
         );
     }
 }

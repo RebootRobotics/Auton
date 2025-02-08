@@ -18,12 +18,12 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 import org.firstinspires.ftc.teamcode.autons.mechanismclasses.*;
 
-@Autonomous(name = "Hang Specimen")
-public class HangSpecimen extends LinearOpMode {
+@Autonomous(name = "Straight Strafe Test")
+public class StraightStrafeTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Pose2d initialPose = new Pose2d(0, 60, Math.toRadians(90));
+        Pose2d initialPose = new Pose2d(0, 0, Math.toRadians(-90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         // all mechanism classes
@@ -35,17 +35,6 @@ public class HangSpecimen extends LinearOpMode {
         VSlide vslide = new VSlide(hardwareMap);
 
         // custom actions
-        Action preload = new SequentialAction(
-                new ParallelAction(
-                        extension.extendIn(),
-                        outtakeLift.liftDown()
-                ),
-                new SleepAction(.25),
-                outtakeClaw.closeClaw(),
-                new SleepAction(.25),
-                outtakeLift.liftUp()
-        );
-
         Action transfer = new SequentialAction(
                 new ParallelAction(
                         extension.extendIn(),
@@ -58,21 +47,25 @@ public class HangSpecimen extends LinearOpMode {
                 outtakeLift.liftUp()
         );
 
-        // trajectories
+        // hang trajectory
         Action trajectory1 = drive.actionBuilder(initialPose)
-                .lineToY(35)
+                .strafeTo(new Vector2d(0, 25))
                 .build();
-//        Action trajectory2 = drive.actionBuilder(new Pose2d(0, 25, Math.toRadians(-90)))
-//                .lineToY(20)
-//                .build();
 
-        Actions.runBlocking(
-                new SequentialAction(
-                        outtakeClaw.closeClaw(),
-//                        outtakeLift.liftInit()
-                        intakeStopper.lowerStopper()
-                )
-        );
+        // go to first block
+        Action trajectory2 = drive.actionBuilder(new Pose2d(0, 25, Math.toRadians(90)))
+                .strafeTo(new Vector2d(0,20))
+                .strafeTo(new Vector2d(-8,20))
+                .strafeTo(new Vector2d(-8, 22))
+                .build();
+
+        // pickup first block
+        Action trajectory3 = drive.actionBuilder(new Pose2d(-8, 22, Math.toRadians(90)))
+                .strafeTo(new Vector2d(-8, 24))
+                .build();
+
+        // init
+        outtakeClaw.closeClaw();
 
         waitForStart();
 
@@ -81,20 +74,20 @@ public class HangSpecimen extends LinearOpMode {
         // auton routine
         Actions.runBlocking(
                 new SequentialAction(
-                        preload,
+                        transfer,
                         new ParallelAction(
                                 trajectory1,
                                 outtakeLift.liftUp(),
                                 vslide.raise(.40)
-                        ),
-                        new SleepAction(.25),
-                        vslide.lower(.10),
-                        new SleepAction(.25),
-                        vslide.raise(.10)
+                        )
+//                        new SleepAction(.25),
+//                        vslide.lower(.25),
+//                        new SleepAction(.25),
+//                        vslide.raise(.25),
+//                        trajectory2,
 //                        new ParallelAction(
-//                                trajectory2,
-//                                outtakeLift.liftDown(),
-//                                vslide.lower(.40)
+//                                trajectory3,
+//                                activeIntake.intake(1)
 //                        )
                 )
         );

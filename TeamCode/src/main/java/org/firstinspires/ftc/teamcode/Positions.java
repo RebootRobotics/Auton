@@ -24,10 +24,12 @@ public class Positions {
     public static final double EXTENSION2_IN = 0.675;
     public static final double EXTENSION2_OUT = 1;
 
-    public static final double OUTTAKE_CLAW_CLOSED = 0.6;
+    public static final double OUTTAKE_CLAW_CLOSED = 0.5;
     public static final double OUTTAKE_CLAW_OPENED = 1;
     public static final double OUTTAKE_LIFT1_UP = 0.9;
     public static final double OUTTAKE_LIFT2_UP = 0.1;
+    public static final double OUTTAKE_LIFT1_INIT = 0.5;
+    public static final double OUTTAKE_LIFT2_INIT = 0.5;
     public static final double OUTTAKE_LIFT1_DOWN = 0.015;
     public static final double OUTTAKE_LIFT2_DOWN = 0.985;
 }

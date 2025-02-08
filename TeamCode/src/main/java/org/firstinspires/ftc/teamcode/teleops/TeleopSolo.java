@@ -38,6 +38,9 @@ public class TeleopSolo extends LinearOpMode {
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        vslide1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        vslide2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         intakeLift1.setPosition(Positions.INTAKE_LIFT1_UP);
         intakeLift2.setPosition(Positions.INTAKE_LIFT2_UP);
         extension1.setPosition(Positions.EXTENSION1_IN);
@@ -55,8 +58,8 @@ public class TeleopSolo extends LinearOpMode {
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower, backLeftPower, frontRightPower, backRightPower;
 
-            frontLeftPower = (y - x - rx) / denominator;
-            backLeftPower = (y + x - rx) / denominator;
+            frontLeftPower = (y + x - rx) / denominator;
+            backLeftPower = (y - x - rx) / denominator;
             frontRightPower = (y - x + rx) / denominator;
             backRightPower = (y + x + rx) / denominator;
 

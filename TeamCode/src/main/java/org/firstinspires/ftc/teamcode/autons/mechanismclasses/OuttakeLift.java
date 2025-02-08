@@ -41,4 +41,17 @@ public class OuttakeLift {
     public Action liftDown() {
         return new LiftDown();
     }
+
+    public class LiftInit implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_INIT);
+            outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_INIT);
+            return false;
+        }
+    }
+
+    public Action liftInit() {
+        return new LiftInit();
+    }
 }

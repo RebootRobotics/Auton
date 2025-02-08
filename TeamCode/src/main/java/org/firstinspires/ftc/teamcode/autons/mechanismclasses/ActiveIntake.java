@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.autons.mechanismclasses;
 import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Positions;
@@ -22,8 +24,12 @@ public class ActiveIntake {
         }
     }
 
-    public Action intake() {
-        return new Intake();
+    public Action intake(double duration) {
+        return new SequentialAction(
+                new Intake(),
+                new SleepAction(duration),
+                new StopIntake()
+        );
     }
 
     public class Release implements Action {
@@ -34,8 +40,12 @@ public class ActiveIntake {
         }
     }
 
-    public Action release() {
-        return new Release();
+    public Action release(double duration) {
+        return new SequentialAction(
+                new Release(),
+                new SleepAction(duration),
+                new StopIntake()
+        );
     }
 
     public class StopIntake implements Action {

@@ -55,8 +55,8 @@ public class DriveTrain extends LinearOpMode {
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower, backLeftPower, frontRightPower, backRightPower;
 
-            frontLeftPower = (y - x - rx) / denominator;
-            backLeftPower = (y + x - rx) / denominator;
+            frontLeftPower = (y + x - rx) / denominator;
+            backLeftPower = (y - x - rx) / denominator;
             frontRightPower = (y - x + rx) / denominator;
             backRightPower = (y + x + rx) / denominator;
 
