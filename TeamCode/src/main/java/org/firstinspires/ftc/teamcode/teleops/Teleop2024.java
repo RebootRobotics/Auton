@@ -66,19 +66,17 @@ public class Teleop2024 extends LinearOpMode {
             backRightMotor.setPower(backRightPower * Positions.SPEED_MODIFIER);
 
             // right buttons
-            if (gamepad2.a) { // pick up
+            if (gamepad1.a) { // intake lift down
                 intakeLift1.setPosition(Positions.INTAKE_LIFT1_DOWN);
                 intakeLift2.setPosition(Positions.INTAKE_LIFT2_DOWN);
 
             }
-
-
-            if (gamepad2.b) { // toggle intake lift
+            if (gamepad1.b) { // intake lift up
                 intakeLift1.setPosition(Positions.INTAKE_LIFT1_UP);
                 intakeLift2.setPosition(Positions.INTAKE_LIFT2_UP);
                 //FORWARD = !FORWARD;
             }
-            if (gamepad1.x) { // transfer  ,  ps4 control; square
+            if (gamepad2.x) { // transfer
 //                FORWARD = false;
 //                Positions.SPEED_MODIFIER = 0.6;
                 outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_DOWN);
@@ -105,57 +103,66 @@ public class Teleop2024 extends LinearOpMode {
                 outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_DOWN);
             }
 
+            if (gamepad2.a) { // open outtake claw
+                outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_OPENED);
+            }
+            if (gamepad2.b) {
+                outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_CLOSED);
+            }
+
             // dpad - vslide and extension
-            if (gamepad1.dpad_up) {
+            if (gamepad2.dpad_up) {
                 vslide1.setPower(Positions.VSLIDE_POWER);
                 vslide2.setPower(-Positions.VSLIDE_POWER);
                 sleep(Positions.VSLIDE_DURATION);
                 vslide1.setPower(0);
                 vslide2.setPower(0);
             }
-            if (gamepad1.dpad_down) {
+            if (gamepad2.dpad_down) {
                 vslide1.setPower(-Positions.VSLIDE_POWER);
                 vslide2.setPower(Positions.VSLIDE_POWER);
                 sleep(Positions.VSLIDE_DURATION);
                 vslide1.setPower(0);
                 vslide2.setPower(0);
             }
-            if (gamepad2.dpad_left) { // extend in
+            if (gamepad1.dpad_left) { // extend out
                 extension1.setPosition(Positions.EXTENSION1_OUT);
                 extension2.setPosition(Positions.EXTENSION2_OUT);
             }
-            if (gamepad2.dpad_right) { // extend out
+            if (gamepad1.dpad_right) { // extend in
                 extension1.setPosition(Positions.EXTENSION1_IN);
                 extension2.setPosition(Positions.EXTENSION2_IN);
             }
+            if (gamepad2.dpad_left) { // extend out
+                if (gamepad2.a) {
+                    vslide1.setPower(-Positions.VSLIDE_POWER);
+                    vslide2.setPower(Positions.VSLIDE_POWER);
+                    sleep(30000);
+                    vslide1.setPower(0);
+                    vslide2.setPower(0);
+                }
+            }
+            if (gamepad2.dpad_right) { // extend out
+                if (gamepad2.a) {
+                    vslide1.setPower(0);
+                    vslide2.setPower(0);
+                }
+            }
 
             // bumper - active intake
-            if (gamepad2.left_bumper) { // intake
+            if (gamepad1.left_bumper) { // intake
                 intakeStopper.setPosition(Positions.INTAKE_STOPPER_UP);
                 activeIntake.setPower(Positions.INTAKE_POWER);
                 sleep(Positions.INTAKE_DURATION);
                 activeIntake.setPower(0);
             }
-            if (gamepad2.right_bumper) { // release
+            if (gamepad1.right_bumper) { // release
                 intakeStopper.setPosition(Positions.INTAKE_STOPPER_DOWN);
                 activeIntake.setPower(-Positions.RELEASE_POWER);
                 sleep(Positions.RELEASE_DURATION);
                 activeIntake.setPower(0);
             }
-            if (gamepad1.a) { // hang
-                vslide1.setPower(-Positions.VSLIDE_POWER);
-                vslide2.setPower(Positions.VSLIDE_POWER);
-                sleep(5000);
-                vslide1.setPower(0);
-                vslide2.setPower(0);
-            }
-            if (gamepad1.b) { // hang
-                vslide1.setPower(-Positions.VSLIDE_POWER);
-                vslide2.setPower(Positions.VSLIDE_POWER);
-                sleep(10000);
-                vslide1.setPower(0);
-                vslide2.setPower(0);
-            }
+
         }
     }
 
