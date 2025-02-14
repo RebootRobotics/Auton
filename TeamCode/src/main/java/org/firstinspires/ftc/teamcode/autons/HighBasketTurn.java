@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 
 // Non-RR imports
@@ -18,8 +19,8 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 import org.firstinspires.ftc.teamcode.autons.mechanismclasses.*;
 
-@Autonomous(name = "High Basket Auto")
-public class HighBasketAuton extends LinearOpMode {
+@Autonomous(name = "High Basket Turn")
+public class HighBasketTurn extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -55,7 +56,7 @@ public class HighBasketAuton extends LinearOpMode {
                 ),
                 new SleepAction(.25),
                 outtakeClaw.closeClaw(),
-                new SleepAction(.25),
+                new SleepAction(2),
                 outtakeLift.liftUp()
         );
 
@@ -67,14 +68,14 @@ public class HighBasketAuton extends LinearOpMode {
                 ),
                 new SleepAction(.25),
                 outtakeClaw.closeClaw(),
-                new SleepAction(.25),
+                new SleepAction(2.0),
                 outtakeLift.liftUp()
         );
 
         Action intaking = new SequentialAction(
 
                 new ParallelAction(
-                        activeIntake.intake(2.5),
+                        activeIntake.intake(3.5),
                         intakeStopper.raiseStopper()
                 )
 
@@ -85,32 +86,53 @@ public class HighBasketAuton extends LinearOpMode {
                 .lineToY(35)
                 .build();
         Action trajectory2 = drive.actionBuilder(new Pose2d(0, 35, Math.toRadians(90)))
-                .strafeTo(new Vector2d(0, 40))
+               // .strafeTo(new Vector2d(0, 40))
+                .lineToY(40)
                 .build();
         Action trajectory3 = drive.actionBuilder(new Pose2d(0, 40, Math.toRadians(90)))
-                .turn(Math.toRadians(180))
-                .strafeTo(new Vector2d(12, 40))
-                .setTangent(Math.toRadians(90))
+                .turn(Math.toRadians(-90))
+               // .strafeTo(new Vector2d(12, 40))
+               // .setTangent(Math.toRadians(90))
+                .lineToX(41)
+
                 .build();
-        Action trajectory4 = drive.actionBuilder(new Pose2d(12, 40, Math.toRadians(90)))
+        Action trajectory4 = drive.actionBuilder(new Pose2d(41, 40, Math.toRadians(0)))
+                .turn(Math.toRadians(-90))
+                .build();
+        Action trajectory5 = drive.actionBuilder(new Pose2d(41, 40, Math.toRadians(-90)))
 //                .strafeTo(new Vector2d(27, 35))
 //                .strafeToConstantHeading(new Vector2d(12,24))
 //                .strafeToConstantHeading(new Vector2d(12,24))
-                .lineToY(24)
+
+
+                .lineToY(25)
 //                .splineToConstantHeading(new Vector2d(9,37), Math.toRadians(0))
                 .build();
-        Action trajectory5 = drive.actionBuilder(new Pose2d(12, 24, Math.toRadians(180)))
-                .setTangent(Math.toRadians(90))
+        Action trajectory6 = drive.actionBuilder(new Pose2d(41, 25, Math.toRadians(-90)))
+                .lineToY(54)
+                .turn(Math.toRadians(-40))
+                //.setTangent(Math.toRadians(90))
 //                .strafeToConstantHeading(new Vector2d(12, 45))
-                .lineToY(45)
-                .strafeTo(new Vector2d(15,45))
+
+               // .strafeTo(new Vector2d(15,45))
 //                .strafeTo(new Vector2d())
 
 
 //                .splineToLinearHeading(new Pose2d(8, 40, Math.toRadians(90)), Math.toRadians(-90))
                 .build();
+        Action trajectory7 = drive.actionBuilder(new Pose2d(41, 56 , Math.toRadians(180)))
 
+                .lineToX(46)
+                        //,Math.toRadians(180))
+//                .turn(Math.toRadians(-60))
+                        .build();
 
+        Action trajectory8 = drive.actionBuilder(new Pose2d(46, 56 , Math.toRadians(180)))
+
+                .lineToX(50)
+                //,Math.toRadians(180))
+//                .turn(Math.toRadians(-60))
+                .build();
         Actions.runBlocking(
                 new SequentialAction(
                         outtakeClaw.closeClaw(),
@@ -143,19 +165,22 @@ public class HighBasketAuton extends LinearOpMode {
                         new SleepAction(.25),
                         new ParallelAction(
                                 trajectory2,
-                                outtakeLift.liftDown(),
-                                vslide.lower(0.40)
-                        ),
+                                outtakeLift.liftDown()
+
+                        ), vslide.lower(0.1),
                         // strafes to samples
                         new SleepAction(.25),
                         trajectory3,
                         new SleepAction(.25),
-                        new ParallelAction(
+                        new SequentialAction(
 
                                 trajectory4,
 ////                                activeIntake.intake(0.75),
 ////                                intakeStopper.raiseStopper()
-                                intaking
+                                new ParallelAction(
+                                intaking,
+                                 trajectory5
+                                )
                         ),
                         new SleepAction(.25),
                         new ParallelAction(
@@ -163,19 +188,32 @@ public class HighBasketAuton extends LinearOpMode {
                                 intakeStopper.lowerStopper()
                         ),
                         new SleepAction(.25),
+                        transfer,
+                        new SleepAction(.25),
                         new ParallelAction(
-                                transfer
+
+                                trajectory6
                         ),
                         new SleepAction(.25),
-                            new ParallelAction(
-                                    vslide.raise(0.9),
-                                    intakeLift.liftDown(),
-                                    trajectory5
-                            )
+//                        vslide.raise(1.5),
+                        intakeLift.liftDown(),
+//                                new ParallelAction(
+                                        trajectory7,
+                        vslide.raise(1.5),
+                                        new ParallelAction(
+                                                trajectory8,
+                                                outtakeClaw.openClaw()
+
+                                        )
+//                                )
+                        )
+//                        trajectory7,
+//                        outtakeClaw.openClaw()
 
 
 
-                )
-        );
+
+                );
+
     }
 }

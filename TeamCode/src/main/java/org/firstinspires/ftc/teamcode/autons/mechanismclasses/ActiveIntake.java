@@ -19,7 +19,7 @@ public class ActiveIntake {
     public class Intake implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            activeIntake.setPower(Positions.INTAKE_POWER);
+            activeIntake.setPower(Positions.INTAKE_POWER_AUTON);
             return false;
         }
     }

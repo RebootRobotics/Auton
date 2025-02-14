@@ -40,7 +40,7 @@ public class Teleop2024 extends LinearOpMode {
 
         intakeLift1.setPosition(Positions.INTAKE_LIFT1_UP);
         intakeLift2.setPosition(Positions.INTAKE_LIFT2_UP);
-        extension1.setPosition(Positions.EXTENSION1_IN);
+
         extension2.setPosition(Positions.EXTENSION2_IN);
 
         outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_OPENED);
@@ -48,7 +48,7 @@ public class Teleop2024 extends LinearOpMode {
         outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_DOWN);
 
         while (opModeIsActive() & !isStopRequested()) {
-            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+            double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
             double x = gamepad1.left_stick_x; //* 1.1; // Counteract imperfect strafing
             double rx = -gamepad1.right_stick_x;
 
@@ -149,6 +149,20 @@ public class Teleop2024 extends LinearOpMode {
                 }
             }
 
+            //arm rotation
+            if (gamepad2.right_bumper){
+                outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_UP_ALL);
+                outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_UP_ALL);
+
+
+            }
+
+            if (gamepad2.left_bumper){
+                outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_UP);
+                outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_UP);
+
+
+            }
             // bumper - active intake
             if (gamepad1.left_bumper) { // intake
                 intakeStopper.setPosition(Positions.INTAKE_STOPPER_UP);
