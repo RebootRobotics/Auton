@@ -30,6 +30,8 @@ public class Teleop2024 extends LinearOpMode {
         DcMotor vslide1 = hardwareMap.dcMotor.get("VSlide1");
         DcMotor vslide2 = hardwareMap.dcMotor.get("VSlide2");
 
+        Servo wiper = hardwareMap.servo.get("wiper");
+
         waitForStart();
 
         if (isStopRequested()) return;
@@ -46,6 +48,8 @@ public class Teleop2024 extends LinearOpMode {
         outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_OPENED);
         outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_DOWN);
         outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_DOWN);
+        wiper.setPosition(Positions.WIPER_CLOSE);
+//        wiper.setPosition(0.5);
 
         while (opModeIsActive() & !isStopRequested()) {
             double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
@@ -155,11 +159,12 @@ public class Teleop2024 extends LinearOpMode {
                 outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_UP_ALL);
 
 
+
             }
 
             if (gamepad2.left_bumper){
-                outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_UP);
-                outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_UP);
+                outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_DOWN);
+                outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_DOWN);
 
 
             }
@@ -175,6 +180,12 @@ public class Teleop2024 extends LinearOpMode {
                 activeIntake.setPower(-Positions.RELEASE_POWER);
                 sleep(Positions.RELEASE_DURATION);
                 activeIntake.setPower(0);
+            }
+            if (gamepad1.x) {
+                wiper.setPosition(Positions.WIPER_OPEN);
+                sleep(750);
+                wiper.setPosition(Positions.WIPER_CLOSE);
+
             }
 
         }
