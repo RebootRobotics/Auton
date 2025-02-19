@@ -55,8 +55,6 @@ public class Teleop2024Red extends LinearOpMode {
         outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_DOWN);
         wiper.setPosition(Positions.WIPER_CLOSE);
 //        wiper.setPosition(0.5);
-        vslide1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        vslide2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         while (opModeIsActive() & !isStopRequested()) {
             double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
@@ -123,47 +121,18 @@ public class Teleop2024Red extends LinearOpMode {
 
             // dpad - vslide and extension
             if (gamepad2.dpad_up) {
-                vslide1.setTargetPosition(1);
-                vslide2.setTargetPosition(1);
-                //value of how far up you want it to go
-
-                vslide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                vslide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                vslide2.setPower(0.5);
-                vslide1.setPower(0.5);
-                while(vslide1.isBusy() && vslide2.isBusy() && opModeIsActive()) {
-
-                }
-                vslide1.setPower(0);
-                vslide2.setPower(0);
-
-                /*vslide1.setPower(Positions.VSLIDE_POWER);
+                vslide1.setPower(Positions.VSLIDE_POWER);
                 vslide2.setPower(-Positions.VSLIDE_POWER);
                 sleep(Positions.VSLIDE_DURATION);
                 vslide1.setPower(0);
-                vslide2.setPower(0);*/
+                vslide2.setPower(0);
             }
             if (gamepad2.dpad_down) {
-                vslide1.setTargetPosition(1);
-                vslide2.setTargetPosition(1);
-                //value of how far up you want it to go
-
-                vslide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                vslide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                vslide2.setPower(0.5);
-                vslide1.setPower(0.5);
-                while(vslide1.isBusy() && vslide2.isBusy() && opModeIsActive()) {
-
-                }
-                vslide1.setPower(0);
-                vslide2.setPower(0);
-                /*vslide1.setPower(-Positions.VSLIDE_POWER);
+                vslide1.setPower(-Positions.VSLIDE_POWER);
                 vslide2.setPower(Positions.VSLIDE_POWER);
                 sleep(Positions.VSLIDE_DURATION);
                 vslide1.setPower(0);
-                vslide2.setPower(0);*/
+                vslide2.setPower(0);
             }
             if (gamepad1.dpad_left) { // extend out
                 extension1.setPosition(Positions.EXTENSION1_OUT);
