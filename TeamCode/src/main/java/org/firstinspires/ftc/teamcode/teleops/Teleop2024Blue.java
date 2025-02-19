@@ -211,7 +211,7 @@ public class Teleop2024Blue extends LinearOpMode {
                 sleep(Positions.INTAKE_DURATION);
                 activeIntake.setPower(0);
             }
-            while(colorsensor.red() > 150) {
+            while(colorsensor.red() > 200) {
                 intakeStopper.setPosition(Positions.INTAKE_STOPPER_DOWN);
                 activeIntake.setPower(-Positions.RELEASE_POWER);
                 sleep(Positions.RELEASE_DURATION);
