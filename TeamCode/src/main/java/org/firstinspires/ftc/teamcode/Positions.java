@@ -10,7 +10,7 @@ public class Positions {
     public static final double INTAKE_POWER_AUTON = 0.5;
     public static final long INTAKE_DURATION = 250;
     public static final double RELEASE_POWER = 0.8;
-    public static final long RELEASE_DURATION = 250;
+    public static final long RELEASE_DURATION = 300;
 
     public static final double VSLIDE_POWER = 1;
     public static final long VSLIDE_DURATION = 100;
