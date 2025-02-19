@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 public class ColorSensor1 extends LinearOpMode {
 
     private ColorSensor colorsensor;
-    private ColorSensor colorsensor_REV_ColorRangeSensor;@Override
+    private ColorSensor colorsensor_REV_ColorRangeSensor;
     public void runOpMode() {
         double count;
         colorsensor = hardwareMap.get(ColorSensor.class, "colorsensor");

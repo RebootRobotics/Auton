@@ -6,9 +6,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Positions;
-
-@TeleOp(name="Teleop2025")
-public class Teleop2024 extends LinearOpMode {
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
+@TeleOp(name="Teleop2025Red")
+public class Teleop2024Red extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
         // configure all motors and servos
@@ -31,6 +33,9 @@ public class Teleop2024 extends LinearOpMode {
         DcMotor vslide2 = hardwareMap.dcMotor.get("VSlide2");
 
         Servo wiper = hardwareMap.servo.get("wiper");
+
+        ColorSensor colorsensor = hardwareMap.get(ColorSensor.class, "colorsensor");
+        ColorSensor colorsensor_REV_ColorRangeSensor = hardwareMap.get(ColorSensor.class, "colorsensor");
 
         waitForStart();
 
@@ -175,6 +180,12 @@ public class Teleop2024 extends LinearOpMode {
                 sleep(Positions.INTAKE_DURATION);
                 activeIntake.setPower(0);
             }
+            while(colorsensor.blue() > 150) {
+                intakeStopper.setPosition(Positions.INTAKE_STOPPER_DOWN);
+                activeIntake.setPower(-Positions.RELEASE_POWER);
+                sleep(Positions.RELEASE_DURATION);
+                activeIntake.setPower(0);
+            }
             if (gamepad1.right_bumper) { // release
                 intakeStopper.setPosition(Positions.INTAKE_STOPPER_DOWN);
                 activeIntake.setPower(-Positions.RELEASE_POWER);
@@ -187,6 +198,17 @@ public class Teleop2024 extends LinearOpMode {
                 wiper.setPosition(Positions.WIPER_CLOSE);
 
             }
+
+            telemetry.addData("Blue: ", colorsensor.blue());
+            telemetry.addData("Green: ", colorsensor.green());
+            telemetry.addData("Red: ", colorsensor.red());
+            telemetry.addData("Light: ", ((OpticalDistanceSensor) colorsensor_REV_ColorRangeSensor).getLightDetected());
+            telemetry.addData("NormalizedColors:", ((NormalizedColorSensor) colorsensor).getNormalizedColors());
+            telemetry.addData("ToText:", colorsensor.toString());
+            //telemetry.addData("Count:", count);
+            //count += 1;
+            telemetry.update();
+
 
         }
     }
