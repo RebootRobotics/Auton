@@ -29,8 +29,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 @Config
 public final class TwoDeadWheelLocalizer implements Localizer {
     public static class Params {
-        public double parYTicks = -12012.25475502135; // y position of the parallel encoder (in tick units)
-        public double perpXTicks = -1158.5485781728796; // x position of the perpendicular encoder (in tick units)
+        public double parYTicks = -13192.649466209003; // y position of the parallel encoder (in tick units)
+        public double perpXTicks = -1929.4109056090715; // x position of the perpendicular encoder (in tick units)
     }
 
     public static Params PARAMS = new Params();
@@ -54,8 +54,10 @@ public final class TwoDeadWheelLocalizer implements Localizer {
         par = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "upperRight")));
         perp = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "lowerLeft")));
 
+        //par 3
+        //perp 0 --> 1
         // TODO: reverse encoder directions if needed
-           perp.setDirection(DcMotorSimple.Direction.REVERSE);
+          // perp.setDirection(DcMotorSimple.Direction.REVERSE);
 
         this.imu = imu;
 
