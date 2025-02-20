@@ -58,10 +58,10 @@ public class TeleopSolo extends LinearOpMode {
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower, backLeftPower, frontRightPower, backRightPower;
 
-            frontLeftPower = (y + x - rx) / denominator;
-            backLeftPower = (y - x - rx) / denominator;
-            frontRightPower = (y - x + rx) / denominator;
-            backRightPower = (y + x + rx) / denominator;
+            frontLeftPower = (y + x * Positions.STRAFE_MODIFIER - rx) / denominator;
+            backLeftPower = (y - x * Positions.STRAFE_MODIFIER - rx) / denominator;
+            frontRightPower = (y - x * Positions.STRAFE_MODIFIER + rx) / denominator;
+            backRightPower = (y + x * Positions.STRAFE_MODIFIER + rx) / denominator;
 
             frontLeftMotor.setPower(frontLeftPower * Positions.SPEED_MODIFIER);
             backLeftMotor.setPower(backLeftPower * Positions.SPEED_MODIFIER);

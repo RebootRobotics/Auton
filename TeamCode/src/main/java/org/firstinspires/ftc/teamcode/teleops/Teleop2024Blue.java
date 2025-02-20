@@ -59,17 +59,17 @@ public class Teleop2024Blue extends LinearOpMode {
         vslide2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         while (opModeIsActive() & !isStopRequested()) {
-            double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
+            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
             double x = gamepad1.left_stick_x; //* 1.1; // Counteract imperfect strafing
             double rx = -gamepad1.right_stick_x;
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower, backLeftPower, frontRightPower, backRightPower;
 
-            frontLeftPower = (y - x - rx) / denominator;
-            backLeftPower = (y + x - rx) / denominator;
-            frontRightPower = (y - x + rx) / denominator;
-            backRightPower = (y + x + rx) / denominator;
+            frontLeftPower = (y + x * Positions.STRAFE_MODIFIER - rx) / denominator;
+            backLeftPower = (y - x * Positions.STRAFE_MODIFIER - rx) / denominator;
+            frontRightPower = (y - x * Positions.STRAFE_MODIFIER + rx) / denominator;
+            backRightPower = (y + x * Positions.STRAFE_MODIFIER + rx) / denominator;
 
             frontLeftMotor.setPower(frontLeftPower * Positions.SPEED_MODIFIER);
             backLeftMotor.setPower(backLeftPower * Positions.SPEED_MODIFIER);

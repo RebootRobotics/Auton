@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 public class Positions {
 //    public static final boolean FORWARD = true;
     public static final double SPEED_MODIFIER = 0.6;
+    public static final double STRAFE_MODIFIER = 1.5;
 
 //    public static final boolean INTAKE_UP = true;
     public static final double INTAKE_POWER = 0.5;
@@ -28,8 +29,10 @@ public class Positions {
 
     public static final double OUTTAKE_CLAW_CLOSED = 0.625;
     public static final double OUTTAKE_CLAW_OPENED = 1;
-    public static final double OUTTAKE_LIFT1_UP = 0.9;
-    public static final double OUTTAKE_LIFT2_UP = 0.1;
+    public static final double OUTTAKE_LIFT1_UP = 0.55;
+    public static final double OUTTAKE_LIFT2_UP = 0.45;
+    public static final double OUTTAKE_LIFT1_FORWARD = 0.9;
+    public static final double OUTTAKE_LIFT2_FORWARD = 0.1;
 
     public static final double OUTTAKE_LIFT1_UP_ALL = 0.6;
     public static final double OUTTAKE_LIFT2_UP_ALL = 0.4;
