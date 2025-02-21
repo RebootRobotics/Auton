@@ -23,6 +23,7 @@ public class TeleopSolo extends LinearOpMode {
         Servo intakeLift2 = hardwareMap.servo.get("lift2");
         Servo extension1 = hardwareMap.servo.get("extension1");
         Servo extension2 = hardwareMap.servo.get("extension2");
+        Servo wiper = hardwareMap.servo.get("wiper");
 
         Servo outtakeClaw = hardwareMap.servo.get("VClaw");
         Servo outtakeLift1 = hardwareMap.servo.get("SlidePivot1");
@@ -45,6 +46,7 @@ public class TeleopSolo extends LinearOpMode {
         intakeLift2.setPosition(Positions.INTAKE_LIFT2_UP);
         extension1.setPosition(Positions.EXTENSION1_IN);
         extension2.setPosition(Positions.EXTENSION2_IN);
+        wiper.setPosition(Positions.WIPER_CLOSED);
 
         outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_OPENED);
         outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_DOWN);
@@ -154,7 +156,7 @@ public class TeleopSolo extends LinearOpMode {
                 activeIntake.setPower(0);
             }
 
-            if (gamepad2.a) {
+            if (gamepad2.y) {
                 frontLeftMotor.setPower(1);
                 backLeftMotor.setPower(-1);
                 frontRightMotor.setPower(1);
@@ -164,6 +166,12 @@ public class TeleopSolo extends LinearOpMode {
                 backLeftMotor.setPower(0);
                 frontRightMotor.setPower(0);
                 backRightMotor.setPower(0);
+            }
+            if (gamepad2.a) {
+                wiper.setPosition(Positions.WIPER_OPEN);
+            }
+            if (gamepad2.b) {
+                wiper.setPosition(Positions.WIPER_CLOSED);
             }
         }
     }

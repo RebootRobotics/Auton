@@ -42,7 +42,7 @@ public class Positions {
 //    public static final double OUTTAKE_LIFT1_UP_MAN = 0.7;
 //    public static final double OUTTAKE_LIFT2_UP_MAN = 0.3;
     public static final double WIPER_OPEN = 0;
-    public static final double WIPER_CLOSE = 0.5;
+    public static final double WIPER_CLOSED = 0.5;
 
 //    public static final double OUTTAKE_LIFT1_DOWN = 0.015;
 //    public static final double OUTTAKE_LIFT2_DOWN = 0.985;

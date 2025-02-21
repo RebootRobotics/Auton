@@ -35,6 +35,7 @@ public class BetterAutonDeposit extends LinearOpMode {
         OuttakeLift outtakeLift = new OuttakeLift(hardwareMap);
         OuttakeClaw outtakeClaw = new OuttakeClaw(hardwareMap);
         VSlide vslide = new VSlide(hardwareMap);
+        Wiper wiper = new Wiper(hardwareMap);
 
         // custom actions
 
@@ -56,8 +57,17 @@ public class BetterAutonDeposit extends LinearOpMode {
                 outtakeLift.liftUp()
         );
 
+        Action hangSpecimen = new SequentialAction(
+                vslide.lower(.25),
+                new SleepAction(0.25),
+                outtakeClaw.openClaw()
+        );
+
         Action trajectory0 = drive.actionBuilder(initialPose)
                 .lineToY(31)
+                .build();
+
+        Action trajectory01 = drive.actionBuilder(new Pose2d(-10, 31, Math.toRadians(90)))
                 .lineToYSplineHeading(45, Math.toRadians(-90))
                 .build();
 
@@ -65,38 +75,41 @@ public class BetterAutonDeposit extends LinearOpMode {
                 .strafeTo(new Vector2d(-37,38))
                 .strafeTo(new Vector2d(-37,10))
                 .strafeTo(new Vector2d(-46,10))
-                .strafeTo(new Vector2d(-46,60))
+                .strafeTo(new Vector2d(-46,55))
                 .strafeTo(new Vector2d(-46,10))
-                .strafeTo(new Vector2d(-60,10))
-                .strafeTo(new Vector2d(-60,62))
-                .strafeTo(new Vector2d(-40, 62))
+                .strafeTo(new Vector2d(-58,10))
+                .strafeTo(new Vector2d(-58,55))
+                .strafeTo(new Vector2d(-40, 55))
+                .strafeTo(new Vector2d(-40, 60))
                 .build();
 
         Action trajectory2 = drive.actionBuilder(new Pose2d(-40, 62, Math.toRadians(-90)))
-                .splineToSplineHeading(new Pose2d(-10, 30, Math.toRadians(90)), Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(-8, 30, Math.toRadians(90)), Math.toRadians(-90))
                 .build();
 
         Action trajectory21 = drive.actionBuilder(new Pose2d(-40, 62, Math.toRadians(-90)))
-                .splineToSplineHeading(new Pose2d(-10, 30, Math.toRadians(90)), Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(-6, 30, Math.toRadians(90)), Math.toRadians(-90))
                 .build();
 
         Action trajectory22 = drive.actionBuilder(new Pose2d(-40, 62, Math.toRadians(-90)))
-                .splineToSplineHeading(new Pose2d(-10, 30, Math.toRadians(90)), Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(-4, 30, Math.toRadians(90)), Math.toRadians(-90))
                 .build();
 
-        Action trajectory3 = drive.actionBuilder(new Pose2d(-10, 30, Math.toRadians(90)))
+        Action trajectory3 = drive.actionBuilder(new Pose2d(-8, 30, Math.toRadians(90)))
                 .splineToSplineHeading(new Pose2d(-40, 62, Math.toRadians(-90)), Math.toRadians(90))
                 .build();
 
-        Action trajectory31 = drive.actionBuilder(new Pose2d(-10, 30, Math.toRadians(90)))
+        Action trajectory31 = drive.actionBuilder(new Pose2d(-6, 30, Math.toRadians(90)))
                 .splineToSplineHeading(new Pose2d(-40, 62, Math.toRadians(-90)), Math.toRadians(90))
                 .build();
 
         // initial positions
         Actions.runBlocking(
                 new SequentialAction(
+                    outtakeLift.liftDown(),
                     extension.extendIn(),
-                    outtakeClaw.closeClaw()
+                    outtakeClaw.closeClaw(),
+                    wiper.closeWiper()
                 )
         );
 
@@ -107,33 +120,68 @@ public class BetterAutonDeposit extends LinearOpMode {
         // auton routine
         Actions.runBlocking(
                 new SequentialAction(
-                        outtakeLift.liftUp(),
-                        trajectory0
+                        new ParallelAction(
+                                outtakeLift.liftUp(),
+                                trajectory0,
+                                vslide.raise(.40)
+                        ),
+                        hangSpecimen,
+                        new SleepAction(0.20),
+                        new ParallelAction(
+                                outtakeLift.liftDown(),
+                                trajectory01
+                        ),
+                        new ParallelAction(
+                            new SequentialAction(
+                                    new SleepAction(0.5),
+                                    outtakeLift.liftForward()
+                            ),
+                            trajectory1,
+                            vslide.lower(.40)
+                        ),
+                        outtakeClaw.closeClaw(),
+                        new SleepAction(0.1),
+                        new ParallelAction(
+                                trajectory2,
+                                vslide.raise(.40),
+                                outtakeLift.liftUp()
+                        ),
+                        hangSpecimen,
+                        new SleepAction(0.25),
+                        new ParallelAction(
+                                trajectory3,
+                                vslide.lower(.40),
+                                new SequentialAction(
+                                        new SleepAction(0.5),
+                                        outtakeLift.liftForward()
+                                )
+                        ),
+                        outtakeClaw.closeClaw(),
+                        new SleepAction(0.1),
+                        new ParallelAction(
+                                trajectory21,
+                                vslide.raise(.40),
+                                outtakeLift.liftUp()
+                        ),
+                        hangSpecimen,
+                        new SleepAction(0.25),
+                        new ParallelAction(
+                                trajectory31,
+                                vslide.lower(.40),
+                                new SequentialAction(
+                                        new SleepAction(0.5),
+                                        outtakeLift.liftForward()
+                                )
+                        ),
+                        outtakeClaw.closeClaw(),
+                        new SleepAction(0.1),
+                        new ParallelAction(
+                                trajectory22,
+                                vslide.raise(.40),
+                                outtakeLift.liftUp()
+                        ),
+                        hangSpecimen
                 )
-//                new SequentialAction(
-//                        outtakeLift.liftUp()
-//                        new ParallelAction(
-//                                trajectory0,
-//                                vslide.raise(.40)
-//                        ),
-//                        new SleepAction(.25),
-//                        vslide.lower(.25),
-//                        new SleepAction(0.25),
-//                        vslide.raise(.25),
-//                        new ParallelAction(
-//                            trajectory1,
-//                            vslide.lower(.3)
-//                        ),
-//                        outtakeClaw.closeClaw(),
-//                        trajectory2,
-//                        new SleepAction(0.5),
-//                        trajectory3,
-//                        trajectory21,
-//                        new SleepAction(0.5),
-//                        trajectory31,
-//                        trajectory22,
-//                        new SleepAction(0.5)
-//                )
         );
     }
 }

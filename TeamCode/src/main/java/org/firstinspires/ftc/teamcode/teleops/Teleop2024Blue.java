@@ -53,7 +53,7 @@ public class Teleop2024Blue extends LinearOpMode {
         outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_OPENED);
         outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_DOWN);
         outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_DOWN);
-        wiper.setPosition(Positions.WIPER_CLOSE);
+        wiper.setPosition(Positions.WIPER_CLOSED);
 //        wiper.setPosition(0.5);
         vslide1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         vslide2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -226,7 +226,7 @@ public class Teleop2024Blue extends LinearOpMode {
             if (gamepad1.x) {
                 wiper.setPosition(Positions.WIPER_OPEN);
                 sleep(750);
-                wiper.setPosition(Positions.WIPER_CLOSE);
+                wiper.setPosition(Positions.WIPER_CLOSED);
 
             }
 
