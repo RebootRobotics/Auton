@@ -29,6 +29,17 @@ public class OuttakeLift {
         return new LiftUp();
     }
 
+    public class LiftAngleUp implements Action{
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet){
+            outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_ANGLE_UP);
+            outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_ANGLE_UP);
+            return false;
+        }
+
+    }
+    public Action liftAngleUp() { return new LiftAngleUp();}
+
     public class LiftDown implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {

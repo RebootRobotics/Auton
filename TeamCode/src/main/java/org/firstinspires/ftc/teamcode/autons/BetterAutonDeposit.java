@@ -84,15 +84,15 @@ public class BetterAutonDeposit extends LinearOpMode {
                 .build();
 
         Action trajectory2 = drive.actionBuilder(new Pose2d(-40, 62, Math.toRadians(-90)))
-                .splineToSplineHeading(new Pose2d(-8, 30, Math.toRadians(90)), Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(-8, 34, Math.toRadians(90)), Math.toRadians(-90))
                 .build();
 
         Action trajectory21 = drive.actionBuilder(new Pose2d(-40, 62, Math.toRadians(-90)))
-                .splineToSplineHeading(new Pose2d(-6, 30, Math.toRadians(90)), Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(-6, 34, Math.toRadians(90)), Math.toRadians(-90))
                 .build();
 
         Action trajectory22 = drive.actionBuilder(new Pose2d(-40, 62, Math.toRadians(-90)))
-                .splineToSplineHeading(new Pose2d(-4, 30, Math.toRadians(90)), Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(-4, 34, Math.toRadians(90)), Math.toRadians(-90))
                 .build();
 
         Action trajectory3 = drive.actionBuilder(new Pose2d(-8, 30, Math.toRadians(90)))
@@ -140,13 +140,18 @@ public class BetterAutonDeposit extends LinearOpMode {
                             vslide.lower(.40)
                         ),
                         outtakeClaw.closeClaw(),
-                        new SleepAction(0.1),
+                        new SleepAction(0.45),
                         new ParallelAction(
                                 trajectory2,
                                 vslide.raise(.40),
-                                outtakeLift.liftUp()
+                                outtakeLift.liftAngleUp()
                         ),
-                        hangSpecimen,
+//                        hangSpecimen,
+//                        outtakeClaw.openClaw(),
+                        vslide.lower(.25),
+                        new SleepAction(0.25),
+                        outtakeClaw.openClaw(),
+
                         new SleepAction(0.25),
                         new ParallelAction(
                                 trajectory3,
@@ -157,13 +162,19 @@ public class BetterAutonDeposit extends LinearOpMode {
                                 )
                         ),
                         outtakeClaw.closeClaw(),
-                        new SleepAction(0.1),
+                        new SleepAction(0.45),
                         new ParallelAction(
                                 trajectory21,
                                 vslide.raise(.40),
-                                outtakeLift.liftUp()
+                                outtakeLift.liftAngleUp()
                         ),
-                        hangSpecimen,
+//                        hangSpecimen,
+//                        outtakeClaw.openClaw(),
+                        vslide.lower(.25),
+                        new SleepAction(0.25),
+                        outtakeClaw.openClaw(),
+
+
                         new SleepAction(0.25),
                         new ParallelAction(
                                 trajectory31,
@@ -174,13 +185,16 @@ public class BetterAutonDeposit extends LinearOpMode {
                                 )
                         ),
                         outtakeClaw.closeClaw(),
-                        new SleepAction(0.1),
+                        new SleepAction(0.45),
                         new ParallelAction(
                                 trajectory22,
                                 vslide.raise(.40),
-                                outtakeLift.liftUp()
+                                outtakeLift.liftAngleUp()
                         ),
-                        hangSpecimen
+                        //hang specimen
+                        vslide.lower(.25),
+                        new SleepAction(0.25),
+                        outtakeClaw.openClaw()
                 )
         );
     }
