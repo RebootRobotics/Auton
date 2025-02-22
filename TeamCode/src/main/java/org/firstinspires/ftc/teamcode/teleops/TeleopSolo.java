@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.teamcode.Positions;
 
 @TeleOp(name="SOLO TELEOP")
@@ -30,6 +32,9 @@ public class TeleopSolo extends LinearOpMode {
         Servo outtakeLift2 = hardwareMap.servo.get("SlidePivot2");
         DcMotor vslide1 = hardwareMap.dcMotor.get("VSlide1");
         DcMotor vslide2 = hardwareMap.dcMotor.get("VSlide2");
+
+        // set up timers
+        ElapsedTime transferTimer;
 
         waitForStart();
 
@@ -71,38 +76,44 @@ public class TeleopSolo extends LinearOpMode {
             backRightMotor.setPower(backRightPower * Positions.SPEED_MODIFIER);
 
             // right buttons
-            if (gamepad1.a) { // pick up
+            if (gamepad1.a) { // move intake lift down
                 intakeLift1.setPosition(Positions.INTAKE_LIFT1_DOWN);
                 intakeLift2.setPosition(Positions.INTAKE_LIFT2_DOWN);
-
             }
-
-            if (gamepad1.b) { // toggle intake lift
+            if (gamepad1.b) { // move intake lift up
                 intakeLift1.setPosition(Positions.INTAKE_LIFT1_UP);
                 intakeLift2.setPosition(Positions.INTAKE_LIFT2_UP);
-                //FORWARD = !FORWARD;
             }
-            if (gamepad1.x) { // transfer  ,  ps4 control; square
-//                FORWARD = false;
-//                Positions.SPEED_MODIFIER = 0.6;
+            if (gamepad1.x) { // transfer
                 outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_DOWN);
                 outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_DOWN);
                 outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_OPENED);
-                sleep(250);
-                extension1.setPosition(Positions.EXTENSION1_IN);
-                extension2.setPosition(Positions.EXTENSION2_IN);
-                intakeLift1.setPosition(Positions.INTAKE_LIFT1_UP);
-                intakeLift2.setPosition(Positions.INTAKE_LIFT2_UP);
-                sleep(500);
-                intakeStopper.setPosition(Positions.INTAKE_STOPPER_DOWN);
-                sleep(250);
-                outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_CLOSED);
-                sleep(1000);
-                outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_UP);
-                outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_UP);
+                transferTimer = new ElapsedTime();
+                if (transferTimer.milliseconds() > 250) {
+                    transferTimer.reset();
+                    extension1.setPosition(Positions.EXTENSION1_IN);
+                    extension2.setPosition(Positions.EXTENSION2_IN);
+                    intakeLift1.setPosition(Positions.INTAKE_LIFT1_UP);
+                    intakeLift2.setPosition(Positions.INTAKE_LIFT2_UP);
+                    final double extensionSleep;
+                    if (extension1.getPosition() < Positions.EXTENSION1_IN && extension2.getPosition() > Positions.EXTENSION2_IN) {
+                        extensionSleep = 500;
+                    } else {
+                        extensionSleep = 250;
+                    }
+                    if (transferTimer.milliseconds() > 250 + extensionSleep) {
+                        intakeStopper.setPosition(Positions.INTAKE_STOPPER_DOWN);
+                        if (transferTimer.milliseconds() > 500 + extensionSleep) {
+                            outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_CLOSED);
+                            if (transferTimer.milliseconds() > 1000 + extensionSleep) {
+                                outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_UP);
+                                outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_UP);
+                            }
+                        }
+                    }
+                }
             }
             if (gamepad1.y) { // drop or hang
-//                FORWARD = true;
                 outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_OPENED);
                 sleep(500);
                 outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_DOWN);
@@ -156,22 +167,31 @@ public class TeleopSolo extends LinearOpMode {
                 activeIntake.setPower(0);
             }
 
-            if (gamepad2.y) {
-                frontLeftMotor.setPower(1);
-                backLeftMotor.setPower(-1);
-                frontRightMotor.setPower(1);
-                backRightMotor.setPower(-1);
-                sleep(500);
-                frontLeftMotor.setPower(0);
-                backLeftMotor.setPower(0);
-                frontRightMotor.setPower(0);
-                backRightMotor.setPower(0);
-            }
             if (gamepad2.a) {
                 wiper.setPosition(Positions.WIPER_OPEN);
             }
             if (gamepad2.b) {
                 wiper.setPosition(Positions.WIPER_CLOSED);
+            }
+            // old transfer
+            if (gamepad2.x) {
+//                FORWARD = false;
+//                Positions.SPEED_MODIFIER = 0.6;
+                outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_DOWN);
+                outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_DOWN);
+                outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_OPENED);
+                sleep(250);
+                extension1.setPosition(Positions.EXTENSION1_IN);
+                extension2.setPosition(Positions.EXTENSION2_IN);
+                intakeLift1.setPosition(Positions.INTAKE_LIFT1_UP);
+                intakeLift2.setPosition(Positions.INTAKE_LIFT2_UP);
+                sleep(500);
+                intakeStopper.setPosition(Positions.INTAKE_STOPPER_DOWN);
+                sleep(250);
+                outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_CLOSED);
+                sleep(1000);
+                outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_UP);
+                outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_UP);
             }
         }
     }
