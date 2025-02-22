@@ -23,7 +23,7 @@ public class HighBasketAuton extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Pose2d initialPose = new Pose2d(0, 60, Math.toRadians(90));
+        Pose2d initialPose = new Pose2d(10, 60, Math.toRadians(90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         // all mechanism classes
@@ -36,15 +36,20 @@ public class HighBasketAuton extends LinearOpMode {
         IntakeLift intakeLift = new IntakeLift(hardwareMap);
 
         // custom actions
-        Action preload = new SequentialAction(
-                new ParallelAction(
-                        extension.extendIn(),
-                        outtakeLift.liftDown()
-                ),
-                new SleepAction(.25),
-                outtakeClaw.closeClaw(),
-                new SleepAction(.25),
-                outtakeLift.liftUp()
+//        Action preload = new SequentialAction(
+//                new ParallelAction(
+//                        extension.extendIn(),
+//                        outtakeLift.liftDown()
+//                ),
+//                new SleepAction(.25),
+//                outtakeClaw.closeClaw(),
+//                new SleepAction(.25),
+//                outtakeLift.liftUp()
+//        );
+        Action hangSpecimen = new SequentialAction(
+                vslide.lower(.25),
+                new SleepAction(0.25),
+                outtakeClaw.openClaw()
         );
 
         //high basket deposit
@@ -65,57 +70,83 @@ public class HighBasketAuton extends LinearOpMode {
                         outtakeLift.liftDown(),
                         outtakeClaw.openClaw()
                 ),
-                new SleepAction(.25),
+                intakeStopper.lowerStopper(),
+                new SleepAction(2),
                 outtakeClaw.closeClaw(),
                 new SleepAction(.25),
-                outtakeLift.liftUp()
+                outtakeLift.liftAngleUp()
         );
 
         Action intaking = new SequentialAction(
 
                 new ParallelAction(
                         activeIntake.intake(2.5),
-                        intakeStopper.raiseStopper()
+                        intakeStopper.raiseStopper(),
+                        intakeLift.liftUp()
                 )
 
         );
 
         // trajectories
-        Action trajectory1 = drive.actionBuilder(initialPose)
+        Action trajectory0 = drive.actionBuilder(initialPose)
+                .lineToY(31)
+                .build();
+
+        Action trajectory01 = drive.actionBuilder(initialPose)
+                .lineToY(38)
+                .build();
+
+        Action trajectory1 = drive.actionBuilder(new Pose2d(10, 38, Math.toRadians(90)))
+                .splineToSplineHeading(new Pose2d(48, 47, Math.toRadians(-90)), Math.toRadians(0))
+                .build();
+
+        Action trajectory2 = drive.actionBuilder(new Pose2d(48, 47, Math.toRadians(-90)))
+                .lineToY(38)
+                .build();
+
+        Action trajectory3 = drive.actionBuilder(new Pose2d(48, 40, Math.toRadians(-90)))
+                .splineToLinearHeading(new Pose2d(55, 55, Math.toRadians(225)), Math.toRadians(45))
+                .build();
+
+        Action trajectory4 = drive.actionBuilder(new Pose2d(55, 55, Math.toRadians(225)))
+                .strafeToSplineHeading(new Vector2d(58, 47), Math.toRadians(-90))
+                .build();
+
+        Action trajectory5 = drive.actionBuilder(new Pose2d(58, 47, Math.toRadians(-90)))
                 .lineToY(35)
                 .build();
-        Action trajectory2 = drive.actionBuilder(new Pose2d(0, 35, Math.toRadians(90)))
-                .strafeTo(new Vector2d(0, 40))
-                .build();
-        Action trajectory3 = drive.actionBuilder(new Pose2d(0, 40, Math.toRadians(90)))
-                .turn(Math.toRadians(180))
-                .strafeTo(new Vector2d(12, 40))
-                .setTangent(Math.toRadians(90))
-                .build();
-        Action trajectory4 = drive.actionBuilder(new Pose2d(12, 40, Math.toRadians(90)))
-//                .strafeTo(new Vector2d(27, 35))
-//                .strafeToConstantHeading(new Vector2d(12,24))
-//                .strafeToConstantHeading(new Vector2d(12,24))
-                .lineToY(24)
-//                .splineToConstantHeading(new Vector2d(9,37), Math.toRadians(0))
-                .build();
-        Action trajectory5 = drive.actionBuilder(new Pose2d(12, 24, Math.toRadians(180)))
-                .setTangent(Math.toRadians(90))
-//                .strafeToConstantHeading(new Vector2d(12, 45))
-                .lineToY(45)
-                .strafeTo(new Vector2d(15,45))
-//                .strafeTo(new Vector2d())
 
+        Action trajectory6 = drive.actionBuilder(new Pose2d(58, 40, Math.toRadians(-90)))
+                .splineToLinearHeading(new Pose2d(57, 55, Math.toRadians(225)), Math.toRadians(90))
+                .build();
 
-//                .splineToLinearHeading(new Pose2d(8, 40, Math.toRadians(90)), Math.toRadians(-90))
+////        Action trajectory7 = myBot.getDrive().actionBuilder(new Pose2d(57, 55, Math.toRadians(225)))
+////                .strafeToLinearHeading(new Vector2d(58, 47), Math.toRadians(300))
+////                .build();
+//
+//        Action trajectory7 = myBot.getDrive().actionBuilder(new Pose2d(57, 55, Math.toRadians(225)))
+//                .strafeToLinearHeading(new Vector2d(61, 44), Math.toRadians(300))
+//                .build();
+
+        Action trajectory7 = drive.actionBuilder(new Pose2d(57, 55, Math.toRadians(225)))
+                .strafeToLinearHeading(new Vector2d(58, 47), Math.toRadians(285))
+                .build();
+
+        Action trajectory8 = drive.actionBuilder(new Pose2d(58, 47, Math.toRadians(300)))
+                .strafeToLinearHeading(new Vector2d(61, 42), Math.toRadians(285))
+                .build();
+
+        Action trajectory9 = drive.actionBuilder(new Pose2d(61, 44, Math.toRadians(300)))
+                .splineToLinearHeading(new Pose2d(57, 55, Math.toRadians(225)), Math.toRadians(90))
                 .build();
 
 
         Actions.runBlocking(
                 new SequentialAction(
                         outtakeClaw.closeClaw(),
-//                        outtakeLift.liftInit()
-                        intakeStopper.lowerStopper()
+                        outtakeLift.liftDown(),
+                        intakeStopper.lowerStopper(),
+                        extension.extendIn()
                 )
         );
 
@@ -127,51 +158,149 @@ public class HighBasketAuton extends LinearOpMode {
         Actions.runBlocking(
                 new SequentialAction(
                         // hangs preload
-                        preload,
                         new ParallelAction(
-                                trajectory1,
                                 outtakeLift.liftUp(),
+                                trajectory0,
                                 vslide.raise(.40)
                         ),
-                        new SleepAction(.25),
-                        vslide.lower(.10),
-                        new SleepAction(.25),
-                        vslide.raise(.10),
-                        // backs up
-                        new SleepAction(.25),
-                        outtakeClaw.openClaw(),
-                        new SleepAction(.25),
+                        hangSpecimen,
+                        new SleepAction(.20),
+                        trajectory01,
+                        new ParallelAction(
+                                outtakeLift.liftDown(),
+                                trajectory1,
+                                vslide.lower(.40)
+                        ),
+//                        new SleepAction(0.25),
+                        new ParallelAction(
+                        extension.extendOut(),
+                                intakeLift.liftDown()
+                                ),
+                        new SleepAction(0.25),
                         new ParallelAction(
                                 trajectory2,
-                                outtakeLift.liftDown(),
-                                vslide.lower(0.40)
-                        ),
-                        // strafes to samples
-                        new SleepAction(.25),
-                        trajectory3,
-                        new SleepAction(.25),
-                        new ParallelAction(
-
-                                trajectory4,
-////                                activeIntake.intake(0.75),
-////                                intakeStopper.raiseStopper()
                                 intaking
                         ),
-                        new SleepAction(.25),
+                        new SleepAction(2),
+
+                        transfer,
+                        new SleepAction(2),
                         new ParallelAction(
-                                intakeLift.liftUp(),
-                                intakeStopper.lowerStopper()
+                                trajectory3,
+                                vslide.raise(1.1)
                         ),
-                        new SleepAction(.25),
+                        outtakeClaw.openClaw(),
+                        new SleepAction(0.75),
                         new ParallelAction(
-                                transfer
+                                trajectory4,
+                                vslide.lower(1.0),
+                                outtakeLift.liftDown(),
+                                outtakeClaw.openClaw()
                         ),
-                        new SleepAction(.25),
-                            new ParallelAction(
-                                    vslide.raise(0.9),
-                                    intakeLift.liftDown(),
-                                    trajectory5
-                            )
+
+
+
+
+
+
+
+                        new SleepAction(0.25),
+                        new ParallelAction(
+                                extension.extendOut(),
+                                intakeLift.liftDown()
+                        ),
+                        new ParallelAction(
+                                trajectory5,
+                                intaking
+                        ),
+                        new SleepAction(0.25),
+                        transfer,
+                        new SleepAction(2),
+                        new ParallelAction(
+                                trajectory6,
+                                vslide.raise(1.1)
+                        ),
+
+
+                        outtakeClaw.openClaw(),
+                        new SleepAction(0.75),
+                        new ParallelAction(
+                                trajectory7,
+                                vslide.lower(1.0),
+                                outtakeLift.liftDown(),
+                                outtakeClaw.openClaw()
+                        ),
+
+
+
+
+
+
+
+                        new SleepAction(0.25),
+                        new ParallelAction(
+                                extension.extendOut(),
+                                intakeLift.liftDown()
+                        ),
+                        new ParallelAction(
+                                trajectory8,
+                                intaking
+                        ),
+                        new SleepAction(0.25),
+                        transfer,
+                        new SleepAction(2),
+                        new ParallelAction(
+                                trajectory9,
+                                vslide.raise(1.1)
+                        ),
+                        outtakeClaw.openClaw()
+
+
+
+
+
+
+
+
+
+//                        vslide.lower(.10),
+//                        new SleepAction(.25),
+//                        vslide.raise(.10),
+//                        // backs up
+//                        new SleepAction(.25),
+//                        outtakeClaw.openClaw(),
+//                        new SleepAction(.25),
+//                        new ParallelAction(
+//                                trajectory2,
+//                                outtakeLift.liftDown(),
+//                                vslide.lower(0.40)
+//                        ),
+//                        // strafes to samples
+//                        new SleepAction(.25),
+//                        trajectory3,
+//                        new SleepAction(.25),
+//                        new ParallelAction(
+//
+//                                trajectory4,
+//////                                activeIntake.intake(0.75),
+//////                                intakeStopper.raiseStopper()
+//                                intaking
+//                        ),
+//                        new SleepAction(.25),
+//                        new ParallelAction(
+//                                intakeLift.liftUp(),
+//                                intakeStopper.lowerStopper()
+//                        ),
+//                        new SleepAction(.25),
+//                        new ParallelAction(
+//                                transfer
+//                        ),
+//                        new SleepAction(.25),
+//                            new ParallelAction(
+//                                    vslide.raise(0.9),
+//                                    intakeLift.liftDown(),
+//                                    trajectory5
+//                            )
 
 
 
