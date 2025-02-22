@@ -9,9 +9,11 @@ import org.firstinspires.ftc.teamcode.Positions;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="Teleop2025Blue")
 public class Teleop2024Blue extends LinearOpMode {
 
+    private ElapsedTime transferTimer = new ElapsedTime(); // Added timer instance
     public void runOpMode() throws InterruptedException {
         // configure all motors and servos
         DcMotor frontLeftMotor = hardwareMap.dcMotor.get("upperLeft");
@@ -105,8 +107,8 @@ public class Teleop2024Blue extends LinearOpMode {
                 sleep(100);
                 outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_CLOSED);
                 sleep(600);
-                outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_UP);
-                outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_UP);
+                outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_ANGLE_UP);
+                outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_ANGLE_UP);
             }
             if (gamepad1.y) { // drop or hang
 //                FORWARD = true;
@@ -156,7 +158,7 @@ public class Teleop2024Blue extends LinearOpMode {
                 if (gamepad2.a) {
                     vslide1.setPower(-Positions.VSLIDE_POWER);
                     vslide2.setPower(Positions.VSLIDE_POWER);
-                    sleep(30000);
+                    sleep(45000);
                     vslide1.setPower(0);
                     vslide2.setPower(0);
                 }
