@@ -1,11 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 public class Positions {
-    //    public static final boolean FORWARD = true;
+//    public static final boolean FORWARD = true;
     public static final double SPEED_MODIFIER = 0.9;
     public static final double STRAFE_MODIFIER = 1.5;
 
-    //    public static final boolean INTAKE_UP = true;
+//    public static final boolean INTAKE_UP = true;
     public static final double INTAKE_POWER = 0.65;
 
     public static final double INTAKE_POWER_AUTON = 0.5;
@@ -42,13 +42,13 @@ public class Positions {
     public static final double OUTTAKE_LIFT1_INIT = 0.5;
     public static final double OUTTAKE_LIFT2_INIT = 0.5;
 
-    //    public static final double OUTTAKE_LIFT1_UP_MAN = 0.7;
+//    public static final double OUTTAKE_LIFT1_UP_MAN = 0.7;
 //    public static final double OUTTAKE_LIFT2_UP_MAN = 0.3;
     public static final double WIPER_OPEN = 0;
     public static final double WIPER_CLOSED = 0.5;
 
-    //    public static final double OUTTAKE_LIFT1_DOWN = 0.015;
+//    public static final double OUTTAKE_LIFT1_DOWN = 0.015;
 //    public static final double OUTTAKE_LIFT2_DOWN = 0.985;
-    public static final double OUTTAKE_LIFT1_DOWN = 0.01;
-    public static final double OUTTAKE_LIFT2_DOWN = 0.99;
+      public static final double OUTTAKE_LIFT1_DOWN = 0.01;
+      public static final double OUTTAKE_LIFT2_DOWN = 0.99;
 }
