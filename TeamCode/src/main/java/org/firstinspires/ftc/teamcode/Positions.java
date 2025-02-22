@@ -2,14 +2,14 @@ package org.firstinspires.ftc.teamcode;
 
 public class Positions {
 //    public static final boolean FORWARD = true;
-    public static final double SPEED_MODIFIER = 0.6;
+    public static final double SPEED_MODIFIER = 0.9;
     public static final double STRAFE_MODIFIER = 1.5;
 
 //    public static final boolean INTAKE_UP = true;
-    public static final double INTAKE_POWER = 0.5;
+    public static final double INTAKE_POWER = 0.65;
 
     public static final double INTAKE_POWER_AUTON = 0.5;
-    public static final long INTAKE_DURATION = 250;
+    public static final long INTAKE_DURATION = 300;
     public static final double RELEASE_POWER = 0.8;
     public static final long RELEASE_DURATION = 300;
 
@@ -33,6 +33,7 @@ public class Positions {
     public static final double OUTTAKE_LIFT2_UP = 0.45;
     public static final double OUTTAKE_LIFT1_ANGLE_UP = 0.7;
     public static final double OUTTAKE_LIFT2_ANGLE_UP = 0.3;
+    //angle up is used to pick up sample
     public static final double OUTTAKE_LIFT1_FORWARD = 0.9;
     public static final double OUTTAKE_LIFT2_FORWARD = 0.1;
 

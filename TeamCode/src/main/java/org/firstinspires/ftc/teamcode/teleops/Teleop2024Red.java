@@ -55,8 +55,8 @@ public class Teleop2024Red extends LinearOpMode {
         outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_DOWN);
         wiper.setPosition(Positions.WIPER_CLOSED);
 //        wiper.setPosition(0.5);
-        vslide1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        vslide2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //vslide1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //vslide2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         while (opModeIsActive() & !isStopRequested()) {
             double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
@@ -106,13 +106,19 @@ public class Teleop2024Red extends LinearOpMode {
                 outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_UP);
                 outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_UP);
             }
-            if (gamepad2.y) { // drop or hang
+            if (gamepad1.y) { // drop or hang
 //                FORWARD = true;
                 outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_OPENED);
                 sleep(500);
                 outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_DOWN);
                 outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_DOWN);
             }
+
+            if (gamepad2.right_trigger > 0.1) {
+                outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_ANGLE_UP);
+                outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_ANGLE_UP);
+            }
+            //position to pick up specimen
 
             if (gamepad2.a) { // open outtake claw
                 outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_OPENED);
@@ -123,47 +129,18 @@ public class Teleop2024Red extends LinearOpMode {
 
             // dpad - vslide and extension
             if (gamepad2.dpad_up) {
-                vslide1.setTargetPosition(1);
-                vslide2.setTargetPosition(1);
-                //value of how far up you want it to go
-
-                vslide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                vslide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                vslide2.setPower(0.5);
-                vslide1.setPower(0.5);
-                while(vslide1.isBusy() && vslide2.isBusy() && opModeIsActive()) {
-
-                }
-                vslide1.setPower(0);
-                vslide2.setPower(0);
-
-                /*vslide1.setPower(Positions.VSLIDE_POWER);
+                vslide1.setPower(Positions.VSLIDE_POWER);
                 vslide2.setPower(-Positions.VSLIDE_POWER);
                 sleep(Positions.VSLIDE_DURATION);
                 vslide1.setPower(0);
-                vslide2.setPower(0);*/
+                vslide2.setPower(0);
             }
             if (gamepad2.dpad_down) {
-                vslide1.setTargetPosition(1);
-                vslide2.setTargetPosition(1);
-                //value of how far up you want it to go
-
-                vslide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                vslide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                vslide2.setPower(0.5);
-                vslide1.setPower(0.5);
-                while(vslide1.isBusy() && vslide2.isBusy() && opModeIsActive()) {
-
-                }
-                vslide1.setPower(0);
-                vslide2.setPower(0);
-                /*vslide1.setPower(-Positions.VSLIDE_POWER);
+                vslide1.setPower(-Positions.VSLIDE_POWER);
                 vslide2.setPower(Positions.VSLIDE_POWER);
                 sleep(Positions.VSLIDE_DURATION);
                 vslide1.setPower(0);
-                vslide2.setPower(0);*/
+                vslide2.setPower(0);
             }
             if (gamepad1.dpad_left) { // extend out
                 extension1.setPosition(Positions.EXTENSION1_OUT);
@@ -193,17 +170,13 @@ public class Teleop2024Red extends LinearOpMode {
             if (gamepad2.right_bumper){
                 outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_UP_ALL);
                 outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_UP_ALL);
-
-
-
             }
 
             if (gamepad2.left_bumper){
                 outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_DOWN);
                 outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_DOWN);
-
-
             }
+
             // bumper - active intake
             if (gamepad1.left_bumper) { // intake
                 intakeStopper.setPosition(Positions.INTAKE_STOPPER_UP);
@@ -211,7 +184,7 @@ public class Teleop2024Red extends LinearOpMode {
                 sleep(Positions.INTAKE_DURATION);
                 activeIntake.setPower(0);
             }
-            while(colorsensor.blue() > 200) {
+            while(colorsensor.blue() > 200 && colorsensor.green() < 300) {
                 intakeStopper.setPosition(Positions.INTAKE_STOPPER_DOWN);
                 activeIntake.setPower(-Positions.RELEASE_POWER);
                 sleep(Positions.RELEASE_DURATION);
