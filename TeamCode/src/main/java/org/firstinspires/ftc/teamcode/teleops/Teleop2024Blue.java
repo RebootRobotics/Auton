@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.teleops;
 
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Positions;
+import org.firstinspires.ftc.teamcode.autons.mechanismclasses.CustomActions;
+
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
@@ -33,6 +37,8 @@ public class Teleop2024Blue extends LinearOpMode {
         Servo outtakeLift2 = hardwareMap.servo.get("SlidePivot2");
         DcMotor vslide1 = hardwareMap.dcMotor.get("VSlide1");
         DcMotor vslide2 = hardwareMap.dcMotor.get("VSlide2");
+
+        CustomActions customActions = new CustomActions(hardwareMap);
 
         Servo wiper = hardwareMap.servo.get("wiper");
 
@@ -92,7 +98,8 @@ public class Teleop2024Blue extends LinearOpMode {
             if (gamepad2.x) { // transfer
 //                FORWARD = false;
 //                Positions.SPEED_MODIFIER = 0.6;
-                outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_DOWN);
+                Actions.runBlocking(new SequentialAction(customActions.transfer()));
+                /*outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_DOWN);
                 outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_DOWN);
                 outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_OPENED);
                 if (extension1.getPosition() < 0.2) {
@@ -108,7 +115,7 @@ public class Teleop2024Blue extends LinearOpMode {
                 outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_CLOSED);
                 sleep(600);
                 outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_ANGLE_UP);
-                outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_ANGLE_UP);
+                outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_ANGLE_UP);*/
             }
             if (gamepad1.y) { // drop or hang
 //                FORWARD = true;
