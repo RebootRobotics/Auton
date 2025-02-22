@@ -93,16 +93,18 @@ public class Teleop2024Red extends LinearOpMode {
                 outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_DOWN);
                 outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_DOWN);
                 outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_OPENED);
-                sleep(250);
+                if (extension1.getPosition() < 0.2) {
+                    sleep(250);
+                }
                 extension1.setPosition(Positions.EXTENSION1_IN);
                 extension2.setPosition(Positions.EXTENSION2_IN);
                 intakeLift1.setPosition(Positions.INTAKE_LIFT1_UP);
                 intakeLift2.setPosition(Positions.INTAKE_LIFT2_UP);
                 sleep(500);
                 intakeStopper.setPosition(Positions.INTAKE_STOPPER_DOWN);
-                sleep(250);
+                sleep(100);
                 outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_CLOSED);
-                sleep(1000);
+                sleep(600);
                 outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_UP);
                 outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_UP);
             }
