@@ -19,8 +19,8 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Positions;
 import org.firstinspires.ftc.teamcode.autons.mechanismclasses.*;
 
-@Autonomous(name = "BetterAutonDeposit")
-public class BetterAutonDeposit extends LinearOpMode {
+@Autonomous(name = "HighSpeedAuton") // 120, 120, -150
+public class HighSpeedAuton extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -28,9 +28,9 @@ public class BetterAutonDeposit extends LinearOpMode {
         Pose2d initialPose = new Pose2d(-10, 60, Math.toRadians(90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
-        // maxProfileAccel 70
-        // maxWheelVel 70
-        // minProfileAccel -50
+        // maxProfileAccel 120
+        // maxWheelVel 120
+        // minProfileAccel -160
 
         // all mechanism classes
         ActiveIntake activeIntake = new ActiveIntake(hardwareMap);
@@ -98,43 +98,55 @@ public class BetterAutonDeposit extends LinearOpMode {
 //                .strafeTo(new Vector2d(-37,38))
                 .strafeTo(new Vector2d(-37,10))
                 .strafeTo(new Vector2d(-46,10))
-                .strafeTo(new Vector2d(-46,52))
+                .strafeTo(new Vector2d(-46,50))
                 .strafeTo(new Vector2d(-46,10))
                 .strafeTo(new Vector2d(-58,10))
-                .strafeTo(new Vector2d(-58,52))
-                .strafeTo(new Vector2d(-40, 52))
-                .strafeTo(new Vector2d(-40, 61))
+                .strafeTo(new Vector2d(-58,50))
+                .strafeTo(new Vector2d(-58,10))
+                .strafeTo(new Vector2d(-60,10))
+                .strafeTo(new Vector2d(-60,50))
+                .strafeTo(new Vector2d(-40, 50))
+                .strafeTo(new Vector2d(-40, 62))
                 .build();
 
-        Action trajectory2 = drive.actionBuilder(new Pose2d(-40, 61, Math.toRadians(-90)))
+        Action trajectory2 = drive.actionBuilder(new Pose2d(-40, 62, Math.toRadians(-90)))
                 .splineToSplineHeading(new Pose2d(-8, 34, Math.toRadians(90)), Math.toRadians(-90))
                 .build();
 
-        Action trajectory21 = drive.actionBuilder(new Pose2d(-40, 61, Math.toRadians(-90)))
+        Action trajectory21 = drive.actionBuilder(new Pose2d(-40, 62, Math.toRadians(-90)))
                 .splineToSplineHeading(new Pose2d(-6, 34, Math.toRadians(90)), Math.toRadians(-90))
                 .build();
 
-        Action trajectory22 = drive.actionBuilder(new Pose2d(-40, 61, Math.toRadians(-90)))
+        Action trajectory22 = drive.actionBuilder(new Pose2d(-40, 62, Math.toRadians(-90)))
                 .splineToSplineHeading(new Pose2d(-4, 34, Math.toRadians(90)), Math.toRadians(-90))
                 .build();
 
+        Action trajectory23 = drive.actionBuilder(new Pose2d(-40, 62, Math.toRadians(-90)))
+                .splineToSplineHeading(new Pose2d(-2, 34, Math.toRadians(90)), Math.toRadians(-90))
+                .build();
+
         Action trajectory3 = drive.actionBuilder(new Pose2d(-8, 34, Math.toRadians(90)))
-                .splineToSplineHeading(new Pose2d(-40, 52, Math.toRadians(-90)), Math.toRadians(90))
-                .lineToY(61)
+                .splineToSplineHeading(new Pose2d(-40, 55, Math.toRadians(-90)), Math.toRadians(90))
+                .lineToY(62)
                 .build();
 
         Action trajectory31 = drive.actionBuilder(new Pose2d(-6, 34, Math.toRadians(90)))
-                .splineToSplineHeading(new Pose2d(-40, 52, Math.toRadians(-90)), Math.toRadians(90))
-                .lineToY(61)
+                .splineToSplineHeading(new Pose2d(-40, 55, Math.toRadians(-90)), Math.toRadians(90))
+                .lineToY(62)
+                .build();
+
+        Action trajectory32 = drive.actionBuilder(new Pose2d(-4, 34, Math.toRadians(90)))
+                .splineToSplineHeading(new Pose2d(-40, 55, Math.toRadians(-90)), Math.toRadians(90))
+                .lineToY(62)
                 .build();
 
         // initial positions
         Actions.runBlocking(
                 new SequentialAction(
-                    outtakeLift.liftDown(),
-                    extension.extendIn(),
-                    outtakeClaw.closeClaw(),
-                    wiper.closeWiper()
+                        outtakeLift.liftDown(),
+                        extension.extendIn(),
+                        outtakeClaw.closeClaw(),
+                        wiper.closeWiper()
                 )
         );
 
@@ -142,13 +154,12 @@ public class BetterAutonDeposit extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        // auton routine
         Actions.runBlocking(
                 new SequentialAction(
                         new ParallelAction(
-                                outtakeLift.liftAngleUp(),
+                                outtakeLift.liftUp(),
                                 trajectory0,
-                                vslide.raise(.50)
+                                vslide.raise(.40)
                         ),
                         hangSpecimen,
                         new SleepAction(0.20),
@@ -168,11 +179,11 @@ public class BetterAutonDeposit extends LinearOpMode {
                         new SleepAction(0.45),
                         new ParallelAction(
                                 trajectory2,
-                                vslide.raise(.45),
+                                vslide.raise(.40),
                                 outtakeLift.liftAngleUp()
                         ),
-//                        hangSpecimen,
-//                        outtakeClaw.openClaw(),
+                        hangSpecimen,
+                        outtakeClaw.openClaw(),
                         vslide.lower(.25),
                         new SleepAction(0.25),
                         outtakeClaw.openClaw(),
@@ -180,7 +191,7 @@ public class BetterAutonDeposit extends LinearOpMode {
                         new SleepAction(0.25),
                         new ParallelAction(
                                 trajectory3,
-                                vslide.lower(.45),
+                                vslide.lower(.40),
                                 new SequentialAction(
                                         new SleepAction(0.5),
                                         outtakeLift.liftForward()
@@ -190,20 +201,18 @@ public class BetterAutonDeposit extends LinearOpMode {
                         new SleepAction(0.45),
                         new ParallelAction(
                                 trajectory21,
-                                vslide.raise(.45),
+                                vslide.raise(.40),
                                 outtakeLift.liftAngleUp()
                         ),
-//                        hangSpecimen,
-//                        outtakeClaw.openClaw(),
+                        hangSpecimen,
+                        outtakeClaw.openClaw(),
                         vslide.lower(.25),
                         new SleepAction(0.25),
                         outtakeClaw.openClaw(),
-
-
                         new SleepAction(0.25),
                         new ParallelAction(
                                 trajectory31,
-                                vslide.lower(.45),
+                                vslide.lower(.40),
                                 new SequentialAction(
                                         new SleepAction(0.5),
                                         outtakeLift.liftForward()
@@ -213,13 +222,34 @@ public class BetterAutonDeposit extends LinearOpMode {
                         new SleepAction(0.45),
                         new ParallelAction(
                                 trajectory22,
-                                vslide.raise(.45),
+                                vslide.raise(.40),
                                 outtakeLift.liftAngleUp()
                         ),
                         //hang specimen
                         vslide.lower(.25),
                         new SleepAction(0.25),
-                        outtakeClaw.openClaw()
+                        outtakeClaw.openClaw(),
+                        new ParallelAction(
+                                trajectory32,
+                                vslide.lower(.40),
+                                new SequentialAction(
+                                        new SleepAction(0.5),
+                                        outtakeLift.liftForward()
+                                )
+                        ),
+                        outtakeClaw.closeClaw(),
+                        new SleepAction(0.45),
+                        new ParallelAction(
+                                trajectory23,
+                                vslide.raise(.40),
+                                outtakeLift.liftAngleUp()
+                        ),
+                        hangSpecimen,
+                        outtakeClaw.openClaw(),
+                        vslide.lower(.25),
+                        new SleepAction(0.25),
+                        outtakeClaw.openClaw(),
+                        new SleepAction(0.25)
                 )
         );
     }
