@@ -117,7 +117,7 @@ public class Teleop2024Red extends LinearOpMode {
                 outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_ANGLE_UP);
                 outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_ANGLE_UP);*/
             }
-            if (gamepad1.y) { // drop or hang
+            if (gamepad1.y || gamepad2.y) { // drop or hang
 //                FORWARD = true;
                 outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_OPENED);
                 sleep(500);
@@ -143,15 +143,15 @@ public class Teleop2024Red extends LinearOpMode {
                 vslide1.setPower(Positions.VSLIDE_POWER);
                 vslide2.setPower(-Positions.VSLIDE_POWER);
                 sleep(Positions.VSLIDE_DURATION);
-                vslide1.setPower(0);
-                vslide2.setPower(0);
+                vslide1.setPower(0.1);
+                vslide2.setPower(0.1);
             }
             if (gamepad2.dpad_down) {
                 vslide1.setPower(-Positions.VSLIDE_POWER);
                 vslide2.setPower(Positions.VSLIDE_POWER);
                 sleep(Positions.VSLIDE_DURATION);
-                vslide1.setPower(0);
-                vslide2.setPower(0);
+                vslide1.setPower(0.1);
+                vslide2.setPower(0.1);
             }
             if (gamepad1.dpad_left) { // extend out
                 extension1.setPosition(Positions.EXTENSION1_OUT);
