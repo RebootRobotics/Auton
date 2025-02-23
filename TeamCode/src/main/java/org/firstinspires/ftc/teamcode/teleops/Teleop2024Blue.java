@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Positions;
 import org.firstinspires.ftc.teamcode.autons.mechanismclasses.CustomActions;
+import org.firstinspires.ftc.teamcode.autons.mechanismclasses.VSlide;
+import org.firstinspires.ftc.teamcode.teleops.controllers.PIDFController;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
@@ -17,6 +19,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="Teleop2025Blue")
 public class Teleop2024Blue extends LinearOpMode {
 
+//    private PIDFController slidePIDF = new PIDFController(0,0,0,0);
     private ElapsedTime transferTimer = new ElapsedTime(); // Added timer instance
     public void runOpMode() throws InterruptedException {
         // configure all motors and servos
@@ -39,7 +42,7 @@ public class Teleop2024Blue extends LinearOpMode {
         DcMotor vslide2 = hardwareMap.dcMotor.get("VSlide2");
 
         CustomActions customActions = new CustomActions(hardwareMap);
-
+        VSlide vslide = new VSlide(hardwareMap);
         Servo wiper = hardwareMap.servo.get("wiper");
 
         ColorSensor colorsensor = hardwareMap.get(ColorSensor.class, "colorsensor");
@@ -143,8 +146,13 @@ public class Teleop2024Blue extends LinearOpMode {
                 vslide1.setPower(Positions.VSLIDE_POWER);
                 vslide2.setPower(-Positions.VSLIDE_POWER);
                 sleep(Positions.VSLIDE_DURATION);
-                vslide1.setPower(0);
-                vslide2.setPower(0);
+                vslide1.setPower(0.1);
+                vslide2.setPower(0.1);
+            }
+            if (!gamepad2.dpad_up || !gamepad2.dpad_down) {
+//                Actions.runBlocking(new SequentialAction(vslide.stopVSlide()));
+                vslide1.setTargetPosition(vslide1.getCurrentPosition());
+                vslide2.setTargetPosition(vslide1.getCurrentPosition());
             }
             if (gamepad2.dpad_down) {
                 vslide1.setPower(-Positions.VSLIDE_POWER);
@@ -178,15 +186,14 @@ public class Teleop2024Blue extends LinearOpMode {
             }
 
             //arm rotation
-            if (gamepad2.right_bumper){
+            if (gamepad2.right_bumper) {
                 outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_UP_ALL);
                 outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_UP_ALL);
 
 
-
             }
 
-            if (gamepad2.left_bumper){
+            if (gamepad2.left_bumper) {
                 outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_DOWN);
                 outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_DOWN);
 
@@ -199,7 +206,7 @@ public class Teleop2024Blue extends LinearOpMode {
                 sleep(Positions.INTAKE_DURATION);
                 activeIntake.setPower(0);
             }
-            while(colorsensor.red() > 200 && colorsensor.green() < 300) {
+            while (colorsensor.red() > 200 && colorsensor.green() < 300) {
                 intakeStopper.setPosition(Positions.INTAKE_STOPPER_DOWN);
                 activeIntake.setPower(-Positions.RELEASE_POWER);
                 sleep(Positions.RELEASE_DURATION);
@@ -230,6 +237,6 @@ public class Teleop2024Blue extends LinearOpMode {
 
 
         }
-    }
+    }}
 
-}
+

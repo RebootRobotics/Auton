@@ -70,6 +70,7 @@ public class HighBasketAuton extends LinearOpMode {
                         outtakeLift.liftDown(),
                         outtakeClaw.openClaw()
                 ),
+                new SleepAction(0.5),
                 intakeStopper.lowerStopper(),
                 new SleepAction(2),
                 outtakeClaw.closeClaw(),
