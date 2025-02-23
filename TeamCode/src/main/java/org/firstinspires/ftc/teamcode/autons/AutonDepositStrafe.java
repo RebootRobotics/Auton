@@ -119,10 +119,10 @@ public class AutonDepositStrafe extends LinearOpMode {
                         ),
                         // hang specimen in the middle #1
                         outtakeClaw.closeClaw(),
-                        new SleepAction(0.45),
+                        new SleepAction(0.4),
                         new ParallelAction(
                                 trajectory2,
-                                vslide.raise(.40),
+                                vslide.raise(.46),
                                 outtakeLift.liftAngleUp()
                         ),
                         customActions.hangSpecimen(),
@@ -130,7 +130,7 @@ public class AutonDepositStrafe extends LinearOpMode {
                         // pickup specimen at the wall #1
                         new ParallelAction(
                                 trajectory3,
-                                vslide.lower(.40),
+                                vslide.lower(.42),
                                 new SequentialAction(
                                         new SleepAction(0.5),
                                         outtakeLift.liftForward()
@@ -139,18 +139,18 @@ public class AutonDepositStrafe extends LinearOpMode {
                         new SleepAction(0.20),
                         // hang specimen in the middle #2
                         outtakeClaw.closeClaw(),
-                        new SleepAction(0.25),
+                        new SleepAction(0.4),
                         new ParallelAction(
                                 trajectory21,
-                                vslide.raise(.40),
+                                vslide.raise(.46),
                                 outtakeLift.liftAngleUp()
                         ),
                         customActions.hangSpecimen(),
-                        new SleepAction(0.25),
+                        new SleepAction(0.4),
                         // pickup specimen at the wall #2
                         new ParallelAction(
                                 trajectory31,
-                                vslide.lower(.40),
+                                vslide.lower(.42),
                                 new SequentialAction(
                                         new SleepAction(0.5),
                                         outtakeLift.liftForward()
@@ -159,10 +159,10 @@ public class AutonDepositStrafe extends LinearOpMode {
                         new SleepAction(0.2),
                         outtakeClaw.closeClaw(),
                         // hang specimen in the middle #3
-                        new SleepAction(0.25),
+                        new SleepAction(0.4),
                         new ParallelAction(
                                 trajectory22,
-                                vslide.raise(.40),
+                                vslide.raise(.46),
                                 outtakeLift.liftAngleUp()
                         ),
                         customActions.hangSpecimen()

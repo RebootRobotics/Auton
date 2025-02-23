@@ -110,32 +110,32 @@ public class HighSpeedAuton extends LinearOpMode {
                 .build();
 
         Action trajectory2 = drive.actionBuilder(new Pose2d(-40, 62, Math.toRadians(-90)))
-                .splineToSplineHeading(new Pose2d(-8, 34, Math.toRadians(90)), Math.toRadians(-90))
-                .build();
-
-        Action trajectory21 = drive.actionBuilder(new Pose2d(-40, 62, Math.toRadians(-90)))
                 .splineToSplineHeading(new Pose2d(-6, 34, Math.toRadians(90)), Math.toRadians(-90))
                 .build();
 
-        Action trajectory22 = drive.actionBuilder(new Pose2d(-40, 62, Math.toRadians(-90)))
-                .splineToSplineHeading(new Pose2d(-4, 34, Math.toRadians(90)), Math.toRadians(-90))
-                .build();
-
-        Action trajectory23 = drive.actionBuilder(new Pose2d(-40, 62, Math.toRadians(-90)))
+        Action trajectory21 = drive.actionBuilder(new Pose2d(-40, 62, Math.toRadians(-90)))
                 .splineToSplineHeading(new Pose2d(-2, 34, Math.toRadians(90)), Math.toRadians(-90))
                 .build();
 
-        Action trajectory3 = drive.actionBuilder(new Pose2d(-8, 34, Math.toRadians(90)))
+        Action trajectory22 = drive.actionBuilder(new Pose2d(-40, 62, Math.toRadians(-90)))
+                .splineToSplineHeading(new Pose2d(2, 34, Math.toRadians(90)), Math.toRadians(-90))
+                .build();
+
+        Action trajectory23 = drive.actionBuilder(new Pose2d(-40, 62, Math.toRadians(-90)))
+                .splineToSplineHeading(new Pose2d(6, 34, Math.toRadians(90)), Math.toRadians(-90))
+                .build();
+
+        Action trajectory3 = drive.actionBuilder(new Pose2d(-6, 34, Math.toRadians(90)))
                 .splineToSplineHeading(new Pose2d(-40, 55, Math.toRadians(-90)), Math.toRadians(90))
                 .lineToY(62)
                 .build();
 
-        Action trajectory31 = drive.actionBuilder(new Pose2d(-6, 34, Math.toRadians(90)))
+        Action trajectory31 = drive.actionBuilder(new Pose2d(-2, 34, Math.toRadians(90)))
                 .splineToSplineHeading(new Pose2d(-40, 55, Math.toRadians(-90)), Math.toRadians(90))
                 .lineToY(62)
                 .build();
 
-        Action trajectory32 = drive.actionBuilder(new Pose2d(-4, 34, Math.toRadians(90)))
+        Action trajectory32 = drive.actionBuilder(new Pose2d(2, 34, Math.toRadians(90)))
                 .splineToSplineHeading(new Pose2d(-40, 55, Math.toRadians(-90)), Math.toRadians(90))
                 .lineToY(62)
                 .build();

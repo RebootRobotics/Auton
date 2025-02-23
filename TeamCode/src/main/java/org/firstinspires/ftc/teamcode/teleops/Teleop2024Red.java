@@ -1,14 +1,19 @@
 package org.firstinspires.ftc.teamcode.teleops;
 
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Positions;
+import org.firstinspires.ftc.teamcode.autons.mechanismclasses.CustomActions;
+
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name="Teleop2025Red")
 public class Teleop2024Red extends LinearOpMode {
 
@@ -32,11 +37,14 @@ public class Teleop2024Red extends LinearOpMode {
         DcMotor vslide1 = hardwareMap.dcMotor.get("VSlide1");
         DcMotor vslide2 = hardwareMap.dcMotor.get("VSlide2");
 
+        CustomActions customActions = new CustomActions(hardwareMap);
+
         Servo wiper = hardwareMap.servo.get("wiper");
 
         ColorSensor colorsensor = hardwareMap.get(ColorSensor.class, "colorsensor");
         ColorSensor colorsensor_REV_ColorRangeSensor = hardwareMap.get(ColorSensor.class, "colorsensor");
 
+        ElapsedTime transferTimer;
         waitForStart();
 
         if (isStopRequested()) return;
@@ -90,7 +98,8 @@ public class Teleop2024Red extends LinearOpMode {
             if (gamepad2.x) { // transfer
 //                FORWARD = false;
 //                Positions.SPEED_MODIFIER = 0.6;
-                outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_DOWN);
+                Actions.runBlocking(new SequentialAction(customActions.transfer()));
+                /*outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_DOWN);
                 outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_DOWN);
                 outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_OPENED);
                 if (extension1.getPosition() < 0.2) {
@@ -105,10 +114,10 @@ public class Teleop2024Red extends LinearOpMode {
                 sleep(100);
                 outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_CLOSED);
                 sleep(600);
-                outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_UP);
-                outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_UP);
+                outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_ANGLE_UP);
+                outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_ANGLE_UP);*/
             }
-            if (gamepad1.y) { // drop or hang
+            if (gamepad1.y || gamepad2.y) { // drop or hang
 //                FORWARD = true;
                 outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_OPENED);
                 sleep(500);
@@ -134,15 +143,15 @@ public class Teleop2024Red extends LinearOpMode {
                 vslide1.setPower(Positions.VSLIDE_POWER);
                 vslide2.setPower(-Positions.VSLIDE_POWER);
                 sleep(Positions.VSLIDE_DURATION);
-                vslide1.setPower(0);
-                vslide2.setPower(0);
+                vslide1.setPower(0.1);
+                vslide2.setPower(0.1);
             }
             if (gamepad2.dpad_down) {
                 vslide1.setPower(-Positions.VSLIDE_POWER);
                 vslide2.setPower(Positions.VSLIDE_POWER);
                 sleep(Positions.VSLIDE_DURATION);
-                vslide1.setPower(0);
-                vslide2.setPower(0);
+                vslide1.setPower(0.1);
+                vslide2.setPower(0.1);
             }
             if (gamepad1.dpad_left) { // extend out
                 extension1.setPosition(Positions.EXTENSION1_OUT);
@@ -156,7 +165,7 @@ public class Teleop2024Red extends LinearOpMode {
                 if (gamepad2.a) {
                     vslide1.setPower(-Positions.VSLIDE_POWER);
                     vslide2.setPower(Positions.VSLIDE_POWER);
-                    sleep(30000);
+                    sleep(45000);
                     vslide1.setPower(0);
                     vslide2.setPower(0);
                 }
