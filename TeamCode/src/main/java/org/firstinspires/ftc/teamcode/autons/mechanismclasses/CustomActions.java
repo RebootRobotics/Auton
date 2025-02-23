@@ -12,6 +12,9 @@ public class CustomActions {
     OuttakeLift outtakeLift;
     OuttakeClaw outtakeClaw;
     VSlide vslide;
+    IntakeLift intakeLift;
+    ActiveIntake activeIntake;
+
 
     public CustomActions(HardwareMap hardwareMap) {
         extension = new Extension(hardwareMap);
@@ -19,6 +22,8 @@ public class CustomActions {
         outtakeLift = new OuttakeLift(hardwareMap);
         outtakeClaw = new OuttakeClaw(hardwareMap);
         vslide = new VSlide(hardwareMap);
+        intakeLift = new IntakeLift(hardwareMap);
+        activeIntake = new ActiveIntake(hardwareMap);
     }
 
     public Action transfer() {
@@ -41,6 +46,26 @@ public class CustomActions {
                 vslide.lower(.25),
                 new SleepAction(0.25),
                 outtakeClaw.openClaw()
+        );
+    }
+
+    public Action highBasketDeposit() {
+        return new SequentialAction(
+                new ParallelAction(
+                        extension.extendIn(),
+                        outtakeLift.liftDown()
+                ),
+                new SleepAction(.25),
+                outtakeClaw.closeClaw(),
+                new SleepAction(.25),
+                outtakeLift.liftUp()
+        );
+    }
+
+    public Action prepIntake() {
+        return new ParallelAction(
+            intakeLift.liftDown(),
+            intakeStopper.raiseStopper()
         );
     }
 
