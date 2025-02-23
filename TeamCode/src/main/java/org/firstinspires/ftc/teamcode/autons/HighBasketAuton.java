@@ -115,13 +115,14 @@ public class HighBasketAuton extends LinearOpMode {
                         new SleepAction(0.25),
                         // intake first block
                         new ParallelAction(
-                            extension.extendOut(),
-                            customActions.prepIntake()
+                                extension.extendOut(),
+                                customActions.prepIntake()
+//                                customActions.highBasketDeposit()
                         ),
                         new SleepAction(0.25),
                         new ParallelAction(
                                 trajectory2,
-                                activeIntake.intake(250)
+                                activeIntake.intake(2.5)
                         ),
                         new SleepAction(0.5),
                         // transfer while moving to high basket
@@ -150,7 +151,7 @@ public class HighBasketAuton extends LinearOpMode {
                         new SleepAction(0.25),
                         new ParallelAction(
                                 trajectory5,
-                                activeIntake.intake(250)
+                                activeIntake.intake(2.5)
                         ),
                         new SleepAction(0.25),
                         // drop second block
@@ -179,7 +180,7 @@ public class HighBasketAuton extends LinearOpMode {
                         new SleepAction(0.25),
                         new ParallelAction(
                                 trajectory8,
-                                activeIntake.intake(250)
+                                activeIntake.intake(2.5)
                         ),
                         new SleepAction(0.25),
                         // drop third block

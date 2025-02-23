@@ -15,7 +15,6 @@ public class CustomActions {
     IntakeLift intakeLift;
     ActiveIntake activeIntake;
 
-
     public CustomActions(HardwareMap hardwareMap) {
         extension = new Extension(hardwareMap);
         intakeStopper = new IntakeStopper(hardwareMap);
@@ -23,7 +22,6 @@ public class CustomActions {
         outtakeClaw = new OuttakeClaw(hardwareMap);
         vslide = new VSlide(hardwareMap);
         intakeLift = new IntakeLift(hardwareMap);
-        activeIntake = new ActiveIntake(hardwareMap);
     }
 
     public Action transfer() {
@@ -31,15 +29,38 @@ public class CustomActions {
                 new ParallelAction(
                         extension.extendIn(),
                         outtakeLift.liftDown(),
-                        outtakeClaw.openClaw()
+                        outtakeClaw.openClaw(),
+                        intakeLift.liftUp()
                 ),
+
+
                 intakeStopper.lowerStopper(),
+
                 new SleepAction(.25),
                 outtakeClaw.closeClaw(),
-                new SleepAction(.25),
+                new SleepAction(0.45),
                 outtakeLift.liftUp()
         );
     }
+    // outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_DOWN);
+//                outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_DOWN);
+//                outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_OPENED);
+// if (extension1.getPosition() < 0.2) {
+//sleep(250);
+//                }
+// extension1.setPosition(Positions.EXTENSION1_IN);
+//                extension2.setPosition(Positions.EXTENSION2_IN);
+//                intakeLift1.setPosition(Positions.INTAKE_LIFT1_UP);
+//                intakeLift2.setPosition(Positions.INTAKE_LIFT2_UP);
+//sleep(500);
+//                intakeStopper.setPosition(Positions.INTAKE_STOPPER_DOWN);
+//sleep(100);
+//                outtakeClaw.setPosition(Positions.OUTTAKE_CLAW_CLOSED);
+
+//sleep(600);
+//                outtakeLift1.setPosition(Positions.OUTTAKE_LIFT1_UP);
+//                outtakeLift2.setPosition(Positions.OUTTAKE_LIFT2_UP);
+//            }
 
     public Action hangSpecimen() {
         return new SequentialAction(
@@ -56,18 +77,20 @@ public class CustomActions {
                         outtakeLift.liftDown()
                 ),
                 new SleepAction(.25),
-                outtakeClaw.closeClaw(),
+                outtakeLift.liftUp(),
                 new SleepAction(.25),
-                outtakeLift.liftUp()
+                outtakeClaw.closeClaw()
         );
     }
 
     public Action prepIntake() {
         return new ParallelAction(
-            intakeLift.liftDown(),
-            intakeStopper.raiseStopper()
+                intakeLift.liftDown(),
+                intakeStopper.raiseStopper()
         );
     }
 
 
 }
+
+

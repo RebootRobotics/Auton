@@ -33,6 +33,7 @@ public class Positions {
     public static final double OUTTAKE_LIFT2_UP = 0.45;
     public static final double OUTTAKE_LIFT1_ANGLE_UP = 0.7;
     public static final double OUTTAKE_LIFT2_ANGLE_UP = 0.3;
+
     //angle up is used to pick up sample
     public static final double OUTTAKE_LIFT1_FORWARD = 0.9;
     public static final double OUTTAKE_LIFT2_FORWARD = 0.1;
